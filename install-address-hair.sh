@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 1. Update Navigation & Footer
+# 1. Update Navigation & Logo text (Footer/Header/Logo)
 cat << 'INNEREOF' > src/navigation.ts
 import { getPermalink } from './utils/permalinks';
 
@@ -32,34 +32,15 @@ export const footerData = {
     { text: 'Privacy Policy', href: getPermalink('/privacy') },
   ],
   socialLinks: [],
-  footNote: 'SalonWeb. © 2026 Address.Hair. All rights reserved.',
+  footNote: 'Address.Hair © 2026. All rights reserved.',
 };
 INNEREOF
 
-# 2. Update Pricing Table (Fixing the .schedule.hair -> .address.hair preview)
-sed -i 's/\.schedule\.hair/\.address\.hair/g' src/components/widgets/Pricing.astro
+# Ensure Logo component uses the correct text
+sed -i 's/SITE?.name/ "Address.Hair" /g' src/components/Logo.astro
+sed -i 's/Schedule\.Hair/Address\.Hair/g' src/components/Logo.astro
 
-# 3. Update Pricing Data
-cat << 'INNEREOF' > src/data/pricingData.ts
-export const lifetimeDeal = {
-  title: 'Salon Homepage Plan',
-  subtitle: 'Boutique Websites for Stylists',
-  price: 99,
-  period: 'One-time payment',
-  items: [
-    { description: 'Premium Vanity URL (address.hair/yoursalon)' },
-    { description: 'Real-time Instagram Content Sync' },
-    { description: 'Aesthetic Boutique Design' },
-    { description: 'Mobile-First User Experience' },
-    { description: 'Integrated Booking Links' },
-    { description: 'Zero Maintenance / No Monthly Fees' },
-    { description: 'Same Day Setup Guaranteed' },
-  ],
-  callToAction: { target: '_blank' as const, text: 'Claim Your Salon\'s Website', href: '#', variant: 'success' },
-};
-INNEREOF
-
-# 4. Update Homepage (Expanded FAQs & Removed "Concept")
+# 2. Update Homepage with Deep Content and Alternating Layouts
 cat << 'INNEREOF' > src/pages/index.astro
 ---
 import Layout from '~/layouts/PageLayout.astro';
@@ -75,16 +56,16 @@ import { lifetimeDeal } from '~/data/pricingData';
 
 const metadata = { 
   title: 'Address.Hair | Boutique Websites for Stylists', 
-  description: 'Your Salon Deserves a Digital Masterpiece. Elegant, high-converting websites with Instagram sync and vanity URLs.' 
+  description: 'Your Salon Deserves a Digital Masterpiece. High-end websites with automated Instagram sync and vanity URLs for elite professionals.' 
 };
 ---
 <Layout metadata={metadata}>
   <Fragment slot="header"><Header {...headerData} isSticky /></Fragment>
   
   <Hero2
-    tagline="Boutique Websites for Salons"
+    tagline="Boutique Web Development for Salons"
     title='<span class="text-accent dark:text-white">Your Salon Deserves a Digital Masterpiece.</span>'
-    subtitle="We build and deploy elegant, high-converting websites that sync with your social media, so you can focus on making your clients look beautiful."
+    subtitle="We build and deploy elegant, high-converting websites that sync with your social media portfolio in real-time. Stand out with a professional address while you focus on the chair."
     actions={[{ variant: 'primary', text: 'Claim Your Salon\'s Website', href: '/pricing/' }, { text: 'Features', href: '#features' }]}
     image={{ src: '/images/hero-poster.webp', width: 1024, height: 576 }}
   />
@@ -92,17 +73,33 @@ const metadata = {
   <Features
     id="features"
     title="Everything Your Salon Needs"
-    subtitle="A Custom, high-end layout that mirrors the luxury and vibe of your physical salon space."
+    subtitle="We have distilled the essential elements of a high-performance salon website into a single, beautiful package."
     items={[
-        { title: 'Aesthetic Design', description: 'Custom layouts that reflect the luxury and vibe of your salon.', icon: 'tabler:palette' },
-        { title: 'Automated Social Feeds', description: 'We sync your Instagram directly to your site. Fresh content, zero effort.', icon: 'tabler:brand-instagram' },
-        { title: 'Essential Business Info', description: 'Integrated booking links, clear location maps, and up-to-date hours.', icon: 'tabler:info-circle' },
-        { title: 'Professional Hosting', description: 'Custom Vanity domains and lightning-fast hosting included.', icon: 'tabler:cloud-computing' },
+        { 
+          title: 'Aesthetic Boutique Design', 
+          description: 'This is not a generic template. Our layouts are custom-crafted to mirror the luxury, lighting, and unique vibe of your physical salon space. We prioritize high-resolution imagery and elegant typography that tells your brand story before the client even walks through the door. Every pixel is designed to build trust and signal elite-level service.', 
+          icon: 'tabler:palette' 
+        },
+        { 
+          title: 'Automated Social Feeds', 
+          description: 'Your website should never be out of date. We sync your Instagram directly to your homepage gallery, creating a living, breathing portfolio. Every time you post a fresh transformation or a new style, your website updates automatically. This ensures your site stays as fresh as your latest client blow-out with absolutely zero manual effort on your part.', 
+          icon: 'tabler:brand-instagram' 
+        },
+        { 
+          title: 'Essential Business Strategy', 
+          description: 'We integrate your primary booking engine directly into a clear, high-conversion layout. Beyond just a link, we include interactive location maps and up-to-date hours designed specifically for mobile users. We optimize the path from search to scheduled appointment, ensuring that local clients can find you and book you with a single tap.', 
+          icon: 'tabler:info-circle' 
+        },
+        { 
+          title: 'Professional Technical Suite', 
+          description: 'Stop worrying about servers or security. We handle the enterprise-grade tech behind your professional address. Our websites are hosted on lightning-fast global networks, ensuring your high-res portfolio loads instantly on any device. We provide SSL security and custom domain routing so your digital home is as stable and professional as your salon business.', 
+          icon: 'tabler:cloud-computing' 
+        },
     ]}
   />
 
   <Content
-    isReversed
+    isReversed={false}
     tagline="Always Fresh. Zero Maintenance."
     title="Your site stays as fresh as your latest client's blowout."
     items={[
@@ -115,12 +112,13 @@ const metadata = {
       <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
         <span class="text-accent dark:text-white">Instant Instagram Portfolio</span>
       </h3>
-      <p>Your website shouldn't be a chore. We automatically sync your latest Instagram posts directly to your homepage so your site is always relevant.</p>
+      <p>Your website shouldn't be a chore. We automatically sync your latest Instagram posts directly to your homepage so your site is always relevant and reflects your current skill level.</p>
     </Fragment>
   </Content>
 
   <div id="process" class="scroll-mt-20">
     <Steps2
+      isReversed={true}
       title="The Path to a Better Presence"
       subtitle="Three simple steps to your new digital home."
       items={[
@@ -149,7 +147,7 @@ const metadata = {
         },
         { 
           title: 'What is Address.Hair exactly?', 
-          description: 'Address.Hair is a specialized web platform for hair professionals. We provide "Digital Addresses"—high-end, mobile-optimized homepages that act as the primary front door for your business. Instead of a complex, expensive website that sits stagnant, we provide a living page that pulls in your latest work from social media and directs clients straight to your booking button.', 
+          description: 'Address.Hair is the definitive digital presence for elite stylists. Beyond being a beautiful homepage, it serves as a powerful SEO asset. By adding your Address.Hair link as the official "Website" on your Google Business Profile, you create a massive authority signal. Google prioritizes professional, dedicated URLs over generic social links or messy booking IDs. This makes your salon stand out in local search and helps you outrank the competition.', 
           icon: 'tabler:world' 
         },
         { 
@@ -162,7 +160,7 @@ const metadata = {
 </Layout>
 INNEREOF
 
-# 5. Update About Page
+# 3. Update About Page with High Depth
 cat << 'INNEREOF' > src/pages/about.astro
 ---
 import Hero2 from '~/components/widgets/Hero2.astro';
@@ -173,58 +171,78 @@ import { lifetimeDeal } from '~/data/pricingData';
 
 const metadata = { 
   title: 'The Story | Address.Hair', 
-  description: 'Boutique websites for the world’s best stylists.' 
+  description: 'Why we build boutique websites for the world’s best hair stylists.' 
 };
 ---
 <Layout metadata={metadata}>
   <Hero2
     tagline="The Story"
-    title='Boutique Websites for <span class="text-accent">Stylists</span>'
-    subtitle="We believe your digital address should be as beautiful as the hair you style. We bridge the gap between your artistry and your online presence."
+    title='Elite Websites for <span class="text-accent">Elite Stylists</span>'
+    subtitle="We believe your digital address should be as beautiful as the transformations you create at the chair. Your website is your digital handshake, and it should reflect the luxury your brand represents."
     actions={[{ variant: 'primary', text: 'Secure My Address', href: '/pricing/' }]}
     image={{ src: '/images/hero-poster.webp', alt: 'Address.Hair Professional Branding' }}
   />
   
   <Content
+    isReversed={false}
     items={[
-        { title: 'Mirror Your Luxury', description: 'Your website should mirror the luxury and vibe of your physical salon space.', icon: 'tabler:award' },
-        { title: 'Focus on Artistry', description: 'We handle the tech so you can focus on making your clients look beautiful.', icon: 'tabler:brush' },
+        { 
+          title: 'Mirror Your Luxury', 
+          description: 'You’ve spent years perfecting your craft and thousands of dollars designing your salon space. Why settle for a generic booking link? We believe your digital home should mirror the luxury and vibe of your physical shop. We focus on the aesthetic details that signal to a client that they are in expert hands before they even book.', 
+          icon: 'tabler:award' 
+        },
+        { 
+          title: 'Focus on Artistry, Not Tech', 
+          description: 'Stylists are artists, not web developers. Our mission is to bridge the gap between your creativity and the technical world. We handle the servers, the code, and the social media integrations so that your online presence stays perfect while you focus on making your clients look and feel beautiful. We are your backend tech team.', 
+          icon: 'tabler:brush' 
+        },
     ]}
   >
     <Fragment slot="content">
-      <h3 class="text-3xl font-bold mb-4">Professionalism: Beyond the Generic</h3>
-      <p class="text-lg text-muted">Address.Hair provides the polish your brand deserves with zero maintenance required from you.</p>
+      <h3 class="text-3xl font-bold mb-4">Our Technical Philosophy</h3>
+      <p class="text-lg text-muted">In the modern beauty industry, "Generic" is the enemy of "Luxury." We move beyond the cluttered links and messy apps to provide a clean, dedicated digital address that establishes you as a local authority. Address.Hair is built on the belief that a website shouldn't be a chore—it should be a salesperson that never sleeps.</p>
     </Fragment>
     <Fragment slot="image">
        <img src="/images/testimonial-4.webp" alt="Elite salon styling" class="rounded-lg shadow-xl w-full" />
     </Fragment>
   </Content>
+
+  <Content
+    isReversed={true}
+    items={[
+        { 
+          title: 'A New Standard for Salons', 
+          description: 'The Address.Hair system was designed by a team that understands the salon industry. We know that content is king, but time is scarce. That is why our Instagram Sync is the core of our engine. Your best work is already on social media; we simply give it the high-end gallery it deserves on a professional domain.', 
+          icon: 'tabler:rocket' 
+        },
+        { 
+          title: 'White-Glove Support', 
+          description: 'When you join Address.Hair, you aren\'t just buying a software license. You are getting a white-glove setup service. We configure your vanity URL, link your social accounts, and ensure your site is perfectly indexed by Google. We handle the heavy lifting so you can stay behind the chair where you belong.', 
+          icon: 'tabler:headset' 
+        },
+    ]}
+  >
+    <Fragment slot="content">
+      <h3 class="text-3xl font-bold mb-4">The Digital Address Difference</h3>
+      <p class="text-lg text-muted">Whether you are a solo booth renter or a high-end salon owner, your digital address is your most valuable asset. It is where your reputation lives online. We take that responsibility seriously, ensuring your site is fast, secure, and stunningly beautiful.</p>
+    </Fragment>
+    <Fragment slot="image">
+       <img src="/images/testimonial-3.webp" alt="Stylist working" class="rounded-lg shadow-xl w-full" />
+    </Fragment>
+  </Content>
+
   <Pricing title="Ready to Own Your Professional Identity?" prices={[lifetimeDeal]} />
 </Layout>
 INNEREOF
 
-# 6. Update Logo Text
-# Assuming SITE.name in config.yaml should be updated, but for hardcoded logo:
-sed -i 's/Schedule\.Hair/Address\.Hair/g' src/components/Logo.astro
-
-# 7. Update Announcement Bar
-cat << 'INNEREOF' > src/components/widgets/Announcement.astro
-<div class="dark text-sm bg-black hidden md:flex items-center justify-center overflow-hidden px-3 py-2 relative text-ellipsis whitespace-nowrap">
-  <div class="flex items-center gap-2">
-    <span>✨ </span><span class="text-white font-medium">Claim your professional <strong>address.hair/yoursalon</strong> vanity URL today.</span>
-  </div>
-  <div class="absolute right-4 top-0 h-full flex items-center"><span class="text-white font-medium">Same-day setup. Just $99</span></div>
-</div>
-INNEREOF
-
-# 8. Execution: Git Push
+# 4. Final Branding Push
 git add .
-git commit -m "Refactor: Final Address.Hair branding, expanded deep FAQs, removed Concept wording"
+git commit -m "Final Polish: Deep content volume, Logo Branding fixed, Alternating layouts"
 git push
 
 echo "----------------------------------------------------"
-echo "✅ Address.Hair BRANDING DEPLOYED & PUSHED"
-echo "✅ Pricing Preview Fixed (.address.hair)"
-echo "✅ FAQ Section Expanded"
-echo "✅ Site Name Fixed (Address.Hair)"
+echo "✅ Address.Hair FINAL BRANDING DEPLOYED"
+echo "✅ Sitename and Logo Fixed"
+echo "✅ Expanded Content Depth in Features/About"
+echo "✅ Alternating Layouts for Visual Flow"
 echo "----------------------------------------------------"

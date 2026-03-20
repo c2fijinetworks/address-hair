@@ -28,5 +28,5 @@ export const footerData = {
     { text: 'Privacy Policy', href: getPermalink('/privacy') },
   ],
   socialLinks: [],
-  footNote: 'SalonWeb. © 2026 Address.Hair. All rights reserved.',
+  footNote: 'Address.Hair © 2026. All rights reserved.',
 };

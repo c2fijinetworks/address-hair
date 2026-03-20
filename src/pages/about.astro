@@ -7,31 +7,65 @@ import { lifetimeDeal } from '~/data/pricingData';
 
 const metadata = { 
   title: 'The Story | Address.Hair', 
-  description: 'Boutique websites for the world’s best stylists.' 
+  description: 'Why we build boutique websites for the world’s best hair stylists.' 
 };
 ---
 <Layout metadata={metadata}>
   <Hero2
     tagline="The Story"
-    title='Boutique Websites for <span class="text-accent">Stylists</span>'
-    subtitle="We believe your digital address should be as beautiful as the hair you style. We bridge the gap between your artistry and your online presence."
+    title='Elite Websites for <span class="text-accent">Elite Stylists</span>'
+    subtitle="We believe your digital address should be as beautiful as the transformations you create at the chair. Your website is your digital handshake, and it should reflect the luxury your brand represents."
     actions={[{ variant: 'primary', text: 'Secure My Address', href: '/pricing/' }]}
     image={{ src: '/images/hero-poster.webp', alt: 'Address.Hair Professional Branding' }}
   />
   
   <Content
+    isReversed={false}
     items={[
-        { title: 'Mirror Your Luxury', description: 'Your website should mirror the luxury and vibe of your physical salon space.', icon: 'tabler:award' },
-        { title: 'Focus on Artistry', description: 'We handle the tech so you can focus on making your clients look beautiful.', icon: 'tabler:brush' },
+        { 
+          title: 'Mirror Your Luxury', 
+          description: 'You’ve spent years perfecting your craft and thousands of dollars designing your salon space. Why settle for a generic booking link? We believe your digital home should mirror the luxury and vibe of your physical shop. We focus on the aesthetic details that signal to a client that they are in expert hands before they even book.', 
+          icon: 'tabler:award' 
+        },
+        { 
+          title: 'Focus on Artistry, Not Tech', 
+          description: 'Stylists are artists, not web developers. Our mission is to bridge the gap between your creativity and the technical world. We handle the servers, the code, and the social media integrations so that your online presence stays perfect while you focus on making your clients look and feel beautiful. We are your backend tech team.', 
+          icon: 'tabler:brush' 
+        },
     ]}
   >
     <Fragment slot="content">
-      <h3 class="text-3xl font-bold mb-4">Professionalism: Beyond the Generic</h3>
-      <p class="text-lg text-muted">Address.Hair provides the polish your brand deserves with zero maintenance required from you.</p>
+      <h3 class="text-3xl font-bold mb-4">Our Technical Philosophy</h3>
+      <p class="text-lg text-muted">In the modern beauty industry, "Generic" is the enemy of "Luxury." We move beyond the cluttered links and messy apps to provide a clean, dedicated digital address that establishes you as a local authority. Address.Hair is built on the belief that a website shouldn't be a chore—it should be a salesperson that never sleeps.</p>
     </Fragment>
     <Fragment slot="image">
        <img src="/images/testimonial-4.webp" alt="Elite salon styling" class="rounded-lg shadow-xl w-full" />
     </Fragment>
   </Content>
+
+  <Content
+    isReversed={true}
+    items={[
+        { 
+          title: 'A New Standard for Salons', 
+          description: 'The Address.Hair system was designed by a team that understands the salon industry. We know that content is king, but time is scarce. That is why our Instagram Sync is the core of our engine. Your best work is already on social media; we simply give it the high-end gallery it deserves on a professional domain.', 
+          icon: 'tabler:rocket' 
+        },
+        { 
+          title: 'White-Glove Support', 
+          description: 'When you join Address.Hair, you aren\'t just buying a software license. You are getting a white-glove setup service. We configure your vanity URL, link your social accounts, and ensure your site is perfectly indexed by Google. We handle the heavy lifting so you can stay behind the chair where you belong.', 
+          icon: 'tabler:headset' 
+        },
+    ]}
+  >
+    <Fragment slot="content">
+      <h3 class="text-3xl font-bold mb-4">The Digital Address Difference</h3>
+      <p class="text-lg text-muted">Whether you are a solo booth renter or a high-end salon owner, your digital address is your most valuable asset. It is where your reputation lives online. We take that responsibility seriously, ensuring your site is fast, secure, and stunningly beautiful.</p>
+    </Fragment>
+    <Fragment slot="image">
+       <img src="/images/testimonial-3.webp" alt="Stylist working" class="rounded-lg shadow-xl w-full" />
+    </Fragment>
+  </Content>
+
   <Pricing title="Ready to Own Your Professional Identity?" prices={[lifetimeDeal]} />
 </Layout>
