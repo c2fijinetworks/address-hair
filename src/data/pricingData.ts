@@ -1,16 +1,16 @@
 export const lifetimeDeal = {
-  title: 'Salon Homepage Plan (Lifetime)',
-  subtitle: 'One-time payment for a professional digital address.',
+  title: 'Salon Homepage Plan',
+  subtitle: 'Boutique Websites for Stylists',
   price: 99,
   period: 'One-time payment',
   items: [
     { description: 'Premium Vanity URL (address.hair/yoursalon)' },
     { description: 'Real-time Instagram Content Sync' },
-    { description: 'Boutique Aesthetic Design' },
+    { description: 'Aesthetic Boutique Design' },
     { description: 'Mobile-First User Experience' },
-    { description: 'Integrated Booking Link Support' },
+    { description: 'Integrated Booking Links' },
     { description: 'Zero Maintenance / No Monthly Fees' },
-    { description: 'White-Glove Tech Support Included' },
+    { description: 'Same Day Setup Guaranteed' },
   ],
-  callToAction: { target: '_blank' as const, text: 'Claim My Salon URL Now', href: '#', variant: 'success' },
+  callToAction: { target: '_blank' as const, text: 'Claim Your Salon\'s Website', href: '#', variant: 'success' },
 };

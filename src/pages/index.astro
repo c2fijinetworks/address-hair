@@ -19,22 +19,22 @@ const metadata = {
   <Fragment slot="header"><Header {...headerData} isSticky /></Fragment>
   
   <Hero2
-    tagline="Boutique Web Development for Salons"
+    tagline="Boutique Websites for Stylists"
     title='<span class="text-accent dark:text-white">Your Salon Deserves a Digital Masterpiece.</span>'
     subtitle="We build and deploy elegant, high-converting websites that sync with your social media, so you can focus on making your clients look beautiful."
-    actions={[{ variant: 'primary', text: 'Claim Your Salon\'s Website', href: '/pricing/' }, { text: 'See How It Works', href: '#features' }]}
+    actions={[{ variant: 'primary', text: 'Claim Your Salon\'s Website', href: '/pricing/' }, { text: 'Features', href: '#features' }]}
     image={{ src: '/images/hero-poster.webp', width: 1024, height: 576 }}
   />
 
   <Features
     id="features"
     title="Everything Your Salon Needs"
-    subtitle="The ultimate digital presence, designed specifically for luxury hair professionals."
+    subtitle="Aesthetic Design: A Custom, high-end layout that mirror the luxury and vibe of your physical salon space."
     items={[
-        { title: 'Aesthetic Design', description: 'A custom, high-end layout that mirrors the luxury and vibe of your physical salon space.', icon: 'tabler:palette' },
+        { title: 'Aesthetic Design', description: 'Custom layouts that reflect the luxury and vibe of your salon.', icon: 'tabler:palette' },
         { title: 'Automated Social Feeds', description: 'We sync your Instagram directly to your site. Fresh content, zero effort.', icon: 'tabler:brand-instagram' },
-        { title: 'Essential Business Info', description: 'Integrated booking links, clear location maps, and up-to-date hours for your clients.', icon: 'tabler:info-circle' },
-        { title: 'Professional Hosting', description: 'We handle the tech. Custom Vanity domains and lightning-fast hosting included.', icon: 'tabler:cloud-computing' },
+        { title: 'Essential Business Info', description: 'Integrated booking links, clear location maps, and up-to-date hours.', icon: 'tabler:info-circle' },
+        { title: 'Professional Hosting', description: 'Custom Vanity domains and lightning-fast hosting included.', icon: 'tabler:cloud-computing' },
     ]}
   />
 
@@ -44,15 +44,15 @@ const metadata = {
     title="Your site stays as fresh as your latest client's blowout."
     items={[
         { title: 'Real-time Instagram Sync', description: 'Your portfolio updates automatically every time you post a new transformation.', icon: 'tabler:refresh' },
-        { title: 'Automatic Content Refresh', description: 'No more outdated websites. Your latest work is always front and center.', icon: 'tabler:device-camera' },
+        { title: 'Automatic Content Refresh', description: 'No more outdated websites. Your latest work is always front and center.', icon: 'tabler:camera' },
     ]}
     image={{ src: '/images/testimonial-2.webp', alt: 'Stylist working on a client' }}
   >
     <Fragment slot="content">
       <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        <span class="text-accent dark:text-white">Website Maintenance is a Thing of the Past</span>
+        <span class="text-accent dark:text-white">Real-time Instagram Sync</span>
       </h3>
-      <p>We automatically sync your latest Instagram posts directly to your homepage.</p>
+      <p>Your website shouldn't be a chore. We automatically sync your latest Instagram posts directly to your homepage.</p>
     </Fragment>
   </Content>
 
@@ -61,9 +61,9 @@ const metadata = {
       title="The Path to a Better Presence"
       subtitle="Three simple steps to your new digital home."
       items={[
-        { title: '01. Sign up', description: 'Secure your brand with your salon’s name and vanity URL.', icon: 'tabler:number-1' },
-        { title: '02. We Build & Sync', description: 'Our studio crafts your site and connects your social feeds for auto-updates.', icon: 'tabler:number-2' },
-        { title: '03. Launch & Shine', description: 'Go live on address.hair/yoursalon and start attracting high-value clients.', icon: 'tabler:number-3' },
+        { title: '01. Sign up with your salon\'s brand', description: 'Secure your brand and choose your vanity URL.', icon: 'tabler:number-1' },
+        { title: '02. We Build & Sync immediately', description: 'Our studio crafts your site and connects your social feeds for auto-updates.', icon: 'tabler:number-2' },
+        { title: '03. Launch & Shine', description: 'Go live on address.hair/mysalonname and start attracting high-value clients.', icon: 'tabler:number-3' },
       ]}
       image={{ src: '/images/testimonial-6.webp', alt: 'Address Hair process' }}
     />
@@ -74,9 +74,9 @@ const metadata = {
   <FAQs
     title="Frequently Asked Questions"
     items={[
-        { title: 'What exactly is a Vanity URL?', description: 'It is a clean, professional link like <strong>address.hair/velvet-studio</strong>. It replaces messy links and makes your salon look like an established, elite brand.', icon: 'tabler:link' },
-        { title: 'Do I need technical skills?', description: 'None. We handle the design, hosting, and social media integration. If you can post to Instagram, you can maintain this website.', icon: 'tabler:tool' },
-        { title: 'How does the Instagram sync work?', description: 'We connect to your public business profile and automatically display your latest posts as a live gallery on your site. Fresh content, zero effort.', icon: 'tabler:brand-instagram' },
+        { title: 'What is the Address.Hair Concept?', description: 'It is a boutique web presence that focuses on vanity URLs and automated content so you never have to "update" your website again.', icon: 'tabler:help' },
+        { title: 'No technical skills required?', description: 'Correct. We handle everything. If you can print a piece of paper or post a photo, you can use this.', icon: 'tabler:tool' },
+        { title: 'Is it really same day setup?', description: 'Yes. Order by 2PM and we usually have your vanity URL live before you close.', icon: 'tabler:bolt' },
     ]}
   />
 </Layout>

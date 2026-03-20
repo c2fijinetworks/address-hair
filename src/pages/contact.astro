@@ -2,27 +2,17 @@
 import Layout from '~/layouts/PageLayout.astro';
 import HeroText from '~/components/widgets/HeroText.astro';
 import GoogleContactForm from '~/components/widgets/GoogleContactForm.astro';
-import Features from '~/components/widgets/Features.astro';
 
 const metadata = {
   title: 'Contact | Address.Hair',
-  description: 'Need help setting up your vanity URL? Our white-glove support team is here.',
+  description: 'Reach out for white-glove setup or support.',
 };
 ---
 <Layout metadata={metadata}>
   <HeroText 
-    tagline="White-Glove Support"
-    title="Let's Build Your Digital Home." 
-    subtitle="Have questions about the Instagram sync or need a custom domain? We respond faster than a blow-dry."
+    tagline="Support"
+    title="We handle everything." 
+    subtitle="Have questions about the Address.Hair Concept? Our team is ready to help you shine online."
   />
   <GoogleContactForm />
-  <Features
-    class="-mt-16"
-    columns={3}
-    items={[
-      { title: 'Setup Assistance', description: 'Need help choosing the right photos? We can guide you.', icon: 'tabler:help' },
-      { title: 'Custom Requests', description: 'Want something special on your homepage? Just ask.', icon: 'tabler:settings' },
-      { title: 'Partnerships', description: 'For agencies and salon consultants.', icon: 'tabler:users' },
-    ]}
-  />
 </Layout>

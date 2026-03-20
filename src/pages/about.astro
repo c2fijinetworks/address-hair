@@ -6,28 +6,28 @@ import Pricing from '~/components/widgets/Pricing.astro';
 import { lifetimeDeal } from '~/data/pricingData';
 
 const metadata = { 
-  title: 'The Mission | Address.Hair', 
-  description: 'Why we build digital masterpieces for the world’s best stylists.' 
+  title: 'The Story | Address.Hair', 
+  description: 'Boutique websites for the world’s best stylists.' 
 };
 ---
 <Layout metadata={metadata}>
   <Hero2
-    tagline="Our Studio"
-    title='We Believe Your Salon Deserves an <span class="text-accent">Address</span>'
-    subtitle="In a world of generic social media profiles, a custom homepage on Address.Hair signals that you are an established, elite professional. We bridge the gap between your artistry and your online presence."
+    tagline="The Story"
+    title='Boutique Websites for <span class="text-accent">Stylists</span>'
+    subtitle="We believe your digital address should be as beautiful as the hair you style. We bridge the gap between your artistry and your online presence."
     actions={[{ variant: 'primary', text: 'Secure My Address', href: '/pricing/' }]}
     image={{ src: '/images/hero-poster.webp', alt: 'Address.Hair Professional Branding' }}
   />
   
   <Content
     items={[
-        { title: 'A Digital Handshake', description: 'Your website is often the first luxury experience a client has with your brand. We make sure it is a five-star experience.', icon: 'tabler:award' },
-        { title: 'Built for Beauty', description: 'Our layouts are optimized to showcase high-resolution artistry, color work, and the vibe of your space.', icon: 'tabler:brush' },
+        { title: 'Mirror Your Luxury', description: 'Your website should mirror the luxury and vibe of your physical salon space.', icon: 'tabler:award' },
+        { title: 'Focus on Artistry', description: 'We handle the tech so you can focus on making your clients look beautiful.', icon: 'tabler:brush' },
     ]}
   >
     <Fragment slot="content">
-      <h3 class="text-3xl font-bold mb-4">Professionalism: Beyond the Bio Link</h3>
-      <p class="text-lg text-muted">Address.Hair was created to give stylists a high-end "front door" that is always updated and never requires technical maintenance.</p>
+      <h3 class="text-3xl font-bold mb-4">Professionalism: Beyond the Generic</h3>
+      <p class="text-lg text-muted">Address.Hair provides the polish your brand deserves with zero maintenance required from you.</p>
     </Fragment>
     <Fragment slot="image">
        <img src="/images/testimonial-4.webp" alt="Elite salon styling" class="rounded-lg shadow-xl w-full" />
