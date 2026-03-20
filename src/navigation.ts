@@ -15,7 +15,7 @@ export const headerData = {
 export const footerData = {
   links: [
     {
-      title: 'Address.Hair',
+      title: 'Address.Hair | Digital Artistry ✂️',
       links: [
         { text: "Claim Your Site – $99", href: getPermalink('/pricing') },
         { text: 'The Story', href: getPermalink('/about') },
@@ -28,5 +28,5 @@ export const footerData = {
     { text: 'Privacy Policy', href: getPermalink('/privacy') },
   ],
   socialLinks: [],
-  footNote: 'Address.Hair © 2026. All rights reserved.',
+  footNote: '© 2026. All rights reserved.',
 };
