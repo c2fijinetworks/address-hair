@@ -15,9 +15,8 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
     {prices.map((price) => (
       <div class="relative overflow-visible flex flex-col rounded-lg border-2 border-primary p-8 text-center shadow-2xl w-full max-w-lg bg-white dark:bg-slate-900">
         
-        {/* Ribbon for Lifetime Deal */}
         <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-accent text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest">
-            Lifetime Access
+            Lifetime Digital Address
         </div>
 
         <h3 class="text-2xl font-bold mt-2">{price.title}</h3>
@@ -38,13 +37,17 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
         </div>
         
         <div class="mt-10 p-6 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
             <input type="hidden" name="cmd" value="_xclick" />
             <input type="hidden" name="business" value="ZFG89TK2KESFG" />
             <input type="hidden" name="item_name" value="Address.Hair Professional Vanity URL Setup" />
-            <input type="hidden" name="item_number" value="SHURL99" />
+            <input type="hidden" name="item_number" value="AHURL99" />
             <input type="hidden" name="amount" value="99.00" />
             <input type="hidden" name="currency_code" value="USD" />
+            
+            <!-- PayPal Guest Checkout Settings -->
+            <input type="hidden" name="solution_type" value="Sole">
+            <input type="hidden" name="landing_page" value="billing">
             
             <div class="text-left mb-4">
               <label class="block text-sm font-bold mb-2 text-slate-700 dark:text-gray-300">
@@ -62,7 +65,6 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
                 />
               </div>
               
-              {/* IMPROVED PREVIEW UI */}
               <div class="mt-3 p-3 bg-white dark:bg-slate-950 rounded border border-dashed border-primary/50 flex items-center gap-2 overflow-hidden">
                 <Icon name="tabler:world" class="w-4 h-4 text-primary animate-pulse" />
                 <span class="text-sm font-mono truncate">
@@ -89,8 +91,8 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
               Secure My URL Today
             </button>
             <div class="flex items-center justify-center gap-2 mt-4 text-slate-500">
-                <Icon name="tabler:lock" class="w-4 h-4" />
-                <p class="text-xs font-medium uppercase tracking-tighter">Safe One-Time Payment via PayPal</p>
+                <Icon name="tabler:credit-card" class="w-4 h-4" />
+                <p class="text-xs font-medium uppercase tracking-tighter">Secure Checkout (Card or PayPal)</p>
             </div>
           </form>
         </div>
@@ -106,20 +108,15 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
     
     if (input && preview) {
       const update = () => {
-        // Force lowercase, remove spaces and non-alphanumeric
         let val = input.value.toLowerCase().replace(/[^a-z0-9]/g, '');
         input.value = val;
         preview.textContent = val || 'yoursalon';
       };
 
       input.addEventListener('input', update);
-      // Run once on load to catch browser autofill
       update();
     }
   }
-
-  // Ensure it runs even with Astro's View Transitions
   document.addEventListener('astro:page-load', initVanityPreview);
-  // Fallback for standard loads
   initVanityPreview();
 </script>
