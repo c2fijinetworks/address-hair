@@ -3,9 +3,9 @@ import { getPermalink } from './utils/permalinks';
 export const headerData = {
   links: [
     { text: 'Features', href: getPermalink('/#features') },
-    { text: 'How It Works', href: getPermalink('/#howitworks') },
+    { text: 'Process', href: getPermalink('/#process') },
     { text: 'The Story', href: getPermalink('/about') },
-    { text: 'Grab Your Vanity URL', href: getPermalink('/pricing') },
+    { text: 'Claim Your URL', href: getPermalink('/pricing') },
   ],
   actions: [
     { text: 'Get Started - $99', variant: 'primary', href: '/pricing' }
@@ -15,9 +15,9 @@ export const headerData = {
 export const footerData = {
   links: [
     {
-      title: 'Schedule.Hair',
+      title: 'SalonWeb',
       links: [
-        { text: "Claim Your Spot – $99", href: getPermalink('/pricing') },
+        { text: "Claim Your Site – $99", href: getPermalink('/pricing') },
         { text: 'Why We Love Salons', href: getPermalink('/about') },
         { text: 'Support', href: getPermalink('/contact') },
       ],
@@ -28,5 +28,5 @@ export const footerData = {
     { text: 'Privacy Policy', href: getPermalink('/privacy') },
   ],
   socialLinks: [],
-  footNote: '✂️ Fill your chairs. | © ' + new Date().getFullYear() + ' Schedule.Hair',
+  footNote: '✂️ Your digital home. | © ' + new Date().getFullYear() + ' Address.Hair. All rights reserved.',
 };
