@@ -40,19 +40,12 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
           <form id="paypal-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
             <input type="hidden" name="cmd" value="_xclick" />
             <input type="hidden" name="business" value="ZFG89TK2KESFG" />
-            
-            <!-- Dynamic Item Name -->
             <input type="hidden" id="paypal-item-name" name="item_name" value="Address.Hair Professional Vanity URL Setup" />
-            
             <input type="hidden" name="item_number" value="AHURL99" />
             <input type="hidden" name="amount" value="99.00" />
             <input type="hidden" name="currency_code" value="USD" />
-            
-            <!-- Digital Service: No Shipping Required -->
             <input type="hidden" name="no_shipping" value="1" />
             <input type="hidden" name="no_note" value="1" />
-            
-            <!-- PayPal Guest Checkout Settings -->
             <input type="hidden" name="solution_type" value="Sole">
             <input type="hidden" name="landing_page" value="billing">
             
@@ -72,10 +65,13 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
                 />
               </div>
               
-              <div class="mt-3 p-3 bg-white dark:bg-slate-950 rounded border border-dashed border-primary/50 flex items-center gap-2 overflow-hidden">
-                <Icon name="tabler:world" class="w-4 h-4 text-primary animate-pulse" />
-                <span class="text-sm font-mono truncate">
-                    <span class="text-slate-400">https://</span><span id="vanity-preview" class="text-primary font-bold">yoursalon</span><span class="text-slate-400">.address.hair</span>
+              <!-- ENHANCED PREVIEW UI: Bolder, High Contrast, Attractive Scheme -->
+              <div class="mt-3 p-4 bg-blue-50 dark:bg-primary/10 rounded-lg border-2 border-dashed border-primary/40 flex items-center gap-3 overflow-hidden shadow-sm">
+                <div class="bg-primary rounded-full p-1.5 flex-shrink-0">
+                  <Icon name="tabler:world" class="w-4 h-4 text-white animate-pulse" />
+                </div>
+                <span class="text-base font-mono truncate leading-none">
+                    <span class="text-slate-500 dark:text-slate-400 font-medium">https://</span><span id="vanity-preview" class="text-primary dark:text-blue-400 font-black text-lg underline decoration-accent/30 decoration-2 underline-offset-4">yoursalon</span><span class="text-slate-500 dark:text-slate-400 font-medium">.address.hair</span>
                 </span>
               </div>
             </div>
@@ -118,12 +114,10 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
     
     if (vanityInput && vanityPreview && salonInput && paypalItemName) {
       const update = () => {
-        // Clean Vanity Input
         let vVal = vanityInput.value.toLowerCase().replace(/[^a-z0-9]/g, '');
         vanityInput.value = vVal;
         vanityPreview.textContent = vVal || 'yoursalon';
 
-        // Update PayPal Item Name to show in cart
         const salonVal = salonInput.value || 'New Salon';
         const displayVanity = vVal || 'yoursalon';
         
@@ -132,8 +126,6 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
 
       vanityInput.addEventListener('input', update);
       salonInput.addEventListener('input', update);
-      
-      // Run once on load
       update();
     }
   }
