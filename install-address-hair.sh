@@ -1,12 +1,85 @@
 #!/bin/bash
 
-# 1. Aggressive Global Search and Replace for any remaining "Schedule" strings
-# This handles the dot version, the space version, and the URL version across all source files.
-find src -type f \( -name "*.astro" -o -name "*.md" -o -name "*.ts" -o -name "*.json" \) -exec sed -i 's/schedule\.hair/address\.hair/g' {} +
-find src -type f \( -name "*.astro" -o -name "*.md" -o -name "*.ts" -o -name "*.json" \) -exec sed -i 's/Schedule\.Hair/Address\.Hair/g' {} +
-find src -type f \( -name "*.astro" -o -name "*.md" -o -name "*.ts" -o -name "*.json" \) -exec sed -i 's/Schedule Hair/Address\.Hair/g' {} +
+# 1. Hardcode Logo Component (Removing SITE.name dependency)
+cat << 'INNEREOF' > src/components/Logo.astro
+---
+---
+<a href="/" class="flex items-center">
+  <img src="/images/logo.webp" alt="Address.Hair" class="h-10 w-auto mr-2 rtl:mr-0 rtl:ml-2" loading="lazy" decoding="async">
+  <span class="self-center text-2xl md:text-xl font-bold text-gray-900 whitespace-nowrap dark:text-white">
+    Address.Hair
+  </span>
+</a>
+INNEREOF
 
-# 2. Force Overwrite Footer & Navigation for consistency
+# 2. Hardcode Footer Component (Removing SITE.name dependency)
+cat << 'INNEREOF' > src/components/widgets/Footer.astro
+---
+import { Icon } from 'astro-icon/components';
+import { getHomePermalink } from '~/utils/permalinks';
+
+interface Link { text?: string; href?: string; ariaLabel?: string; icon?: string; }
+interface Links { title?: string; links: Array<Link>; }
+export interface Props { links: Array<Links>; secondaryLinks: Array<Link>; socialLinks: Array<Link>; footNote?: string; theme?: string; }
+
+const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme = 'light' } = Astro.props;
+---
+
+<footer class:list={[{ dark: theme === 'dark' }, 'relative border-t border-gray-200 dark:border-slate-800 not-prose']}>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
+    
+    <!-- Top area: Centered Links -->
+    <div class="flex justify-center py-8 md:py-12">
+      {links.map(({ title, links: primaryLinks }) => (
+        <div class="text-center">
+          <div class="dark:text-gray-300 font-medium mb-2">{title}</div>
+            <ul class="text-sm flex flex-wrap justify-center items-center" role="list">
+                {primaryLinks.map((link, index) => (
+                    <li>
+                        <a class="text-muted hover:text-gray-700 hover:underline dark:text-gray-400 transition" href={link.href}>{link.text}</a>
+                        {index < primaryLinks.length - 1 && <span class="mx-2" aria-hidden="true">·</span>}
+                    </li>
+                ))}
+            </ul>
+        </div>
+      ))}
+    </div>
+
+    <!-- Bottom area -->
+    <div class="flex flex-col-reverse items-center md:flex-row md:justify-between py-6 md:py-8 border-t border-gray-200 dark:border-slate-800">
+      
+      <!-- Left side: Hardcoded Address.Hair Brand -->
+      <div class="text-sm text-muted text-center md:text-left mt-4 md:mt-0">
+        <div class="font-bold text-lg mb-1">
+          <a href={getHomePermalink()}>Address.Hair</a>
+        </div>
+        <div>
+          <Fragment set:html={footNote} />
+        </div>
+      </div>
+
+      <!-- Right side: Terms + Socials -->
+      <div class="flex items-center justify-center gap-x-6">
+        <div class="text-sm text-muted">
+          {secondaryLinks.map(({ text, href }, index) => (
+            <>
+              <a class="text-muted hover:text-gray-700 dark:text-gray-400 hover:underline transition" href={href} set:html={text} />
+              {index < secondaryLinks.length - 1 && <span class="px-1">·</span>}
+            </>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+INNEREOF
+
+# 3. Aggressive recursive cleanup of any remaining "Schedule" strings in all files
+find src -type f \( -name "*.astro" -o -name "*.md" -o -name "*.ts" -o -name "*.json" -o -name "*.yaml" \) -exec sed -i 's/schedule\.hair/address\.hair/g' {} +
+find src -type f \( -name "*.astro" -o -name "*.md" -o -name "*.ts" -o -name "*.json" -o -name "*.yaml" \) -exec sed -i 's/Schedule\.Hair/Address\.Hair/g' {} +
+find src -type f \( -name "*.astro" -o -name "*.md" -o -name "*.ts" -o -name "*.json" -o -name "*.yaml" \) -exec sed -i 's/Schedule Hair/Address\.Hair/g' {} +
+
+# 4. Overwrite navigation.ts to ensure footer title is correct
 cat << 'INNEREOF' > src/navigation.ts
 import { getPermalink } from './utils/permalinks';
 
@@ -42,159 +115,13 @@ export const footerData = {
 };
 INNEREOF
 
-# 3. Explicitly fix Logo component
-sed -i 's/SITE?.name/ "Address.Hair" /g' src/components/Logo.astro
-
-# 4. Fix Pricing Page FAQ (Restoring the 4th block for a complete grid)
-cat << 'INNEREOF' > src/pages/pricing.astro
----
-import Layout from '~/layouts/PageLayout.astro';
-import HeroText from '~/components/widgets/HeroText.astro';
-import Pricing from '~/components/widgets/Pricing.astro';
-import FAQs from '~/components/widgets/FAQs.astro';
-import Features3 from '~/components/widgets/Features3.astro';
-import { lifetimeDeal } from '~/data/pricingData';
-
-const metadata = { 
-  title: 'Pricing | Secure Your Address.Hair URL', 
-  description: 'Professional salon vanity URLs with zero monthly fees. One-time setup, lifetime presence, live in hours.' 
-};
----
-<Layout metadata={metadata}>
-  <HeroText 
-    tagline="The Professional Standard"
-    title="Claim Your Name Before Someone Else Does." 
-    subtitle="Your vanity URL is your digital storefront. Don't let your competition secure your salon's name. For a one-time fee of $99, we build your boutique homepage and get you live on address.hair/yoursalon before your last appointment of the day."
-  />
-
-  <Pricing prices={[lifetimeDeal]} />
-
-  <Features3
-    title="Why Stylists are Switching to Address.Hair"
-    subtitle="We move you beyond the generic 'Bio Link' and into a professional digital asset."
-    columns={3}
-    items={[
-      { 
-        title: 'The Vanity URL Advantage', 
-        description: 'Ditch the long, messy booking IDs. Own a professional address (address.hair/yoursalon) that is easy for clients to type, remember, and share via text or DM. It signals elite status instantly.', 
-        icon: 'tabler:link' 
-      },
-      { 
-        title: 'Same-Day White-Glove Setup', 
-        description: 'We don’t make you wait weeks. If you order by 2PM, our team builds your site, syncs your Instagram portfolio, and deploys your URL today. You focus on the hair; we handle the code.', 
-        icon: 'tabler:bolt' 
-      },
-      { 
-        title: 'Eliminate the "SaaS Tax"', 
-        description: 'Stop paying $50-$150 every month just to have a website. Our $99 one-time license gives you lifetime hosting, security, and updates. That is $600+ back in your pocket every single year.', 
-        icon: 'tabler:coin' 
-      },
-      { 
-        title: 'Google Profile Authority', 
-        description: 'Boost your Local SEO by linking your vanity URL to the "Website" button on Google. Professional domains carry more weight than generic social links, helping you climb the rankings.', 
-        icon: 'tabler:brand-google' 
-      },
-      { 
-        title: 'Zero Maintenance Sync', 
-        description: 'Your time belongs behind the chair. Our system automatically refreshes your website content every time you post to Instagram. Your latest work is always front and center.', 
-        icon: 'tabler:refresh' 
-      },
-      { 
-        title: 'Mobile-First Luxury', 
-        description: '90% of your clients book on their phones. We build for speed and aesthetic perfection on iPhone and Android, ensuring a premium experience from the very first click.', 
-        icon: 'tabler:device-mobile' 
-      },
-    ]}
-  />
-
-  <FAQs
-    title="Pricing & Setup Questions"
-    items={[
-        { 
-          title: 'Is it really just one payment?', 
-          description: 'Yes. We charge a one-time setup and licensing fee. We believe salon owners are over-subscribed, so we eliminated the monthly bill. You get the website, the vanity URL, the Instagram sync, and the hosting for life.', 
-          icon: 'tabler:coin' 
-        },
-        { 
-          title: 'Can I use my own .com domain?', 
-          description: 'Absolutely. While the free Address.Hair vanity URL is included, we can fully set up and manage your own custom .com or .salon domain for just $15/year. We handle all the tech and pointing for you.', 
-          icon: 'tabler:world' 
-        },
-        { 
-          title: 'How does the "Same-Day" setup work?', 
-          description: 'Our team monitors orders in real-time. Once you secure your license, we send a brief form to grab your Instagram handle and basic details. If you complete that by 2PM EST, we guarantee your site will be live before the end of the business day.', 
-          icon: 'tabler:bolt' 
-        },
-        { 
-          title: 'What if I need help after setup?', 
-          description: 'Our white-glove support doesn\'t end at launch. If you change your salon name, want to tweak your brand colors, or need help updating your Google profile, our team is available to assist via our support desk.', 
-          icon: 'tabler:headset' 
-        },
-    ]}
-  />
-</Layout>
-INNEREOF
-
-# 5. Fix Legal Pages (Contact Links)
-# Terms
-cat << 'INNEREOF' > src/pages/terms.md
----
-layout: '~/layouts/MarkdownLayout.astro'
-title: 'Terms of Service'
----
-
-Last updated: March 20, 2026
-
-Welcome to **Address.Hair**. By using our services, you agree to these terms. Please read them carefully.
-
-### 1. Services
-Address.Hair provides vanity URLs and salon homepage hosting services. Our lifetime deal includes setup, hosting, and social media synchronization for a one-time fee.
-
-### 2. Fees and Payments
-All payments are one-time fees as specified at the time of purchase. There are no recurring monthly subscriptions for our standard hosting and vanity URL package. Custom domain renewals (.com, .salon, etc.) are billed annually.
-
-### 3. Content
-You retain all rights to the content synced from your social media accounts. You grant Address.Hair a license to display that content on your provided vanity URL.
-
-### 4. Termination
-We reserve the right to suspend or terminate services for accounts that violate local laws or engage in fraudulent activity.
-
-### 5. Contact
-If you have any questions about these Terms, please contact us at [https://address.hair/contact](https://address.hair/contact).
-INNEREOF
-
-# Privacy
-cat << 'INNEREOF' > src/pages/privacy.md
----
-layout: '~/layouts/MarkdownLayout.astro'
-title: 'Privacy Policy'
----
-
-Last updated: March 20, 2026
-
-At **Address.Hair**, we value your privacy.
-
-### 1. Information We Collect
-We collect your name, email address, and salon business details when you purchase a license. We also access public Instagram data via authorized APIs to synchronize your homepage gallery.
-
-### 2. How We Use Information
-We use your information to set up your digital address, provide tech support, and notify you of system updates. We do not sell your data to third-party advertisers.
-
-### 3. Data Security
-We implement standard industry security measures to protect your account details and payment information.
-
-### 4. Contact Us
-If you have questions about your data, please visit [https://address.hair/contact](https://address.hair/contact).
-INNEREOF
-
-# 6. Final Push
+# 5. Final Push
 git add .
-git commit -m "Fix: Final branding cleanup, fixed 4th Pricing FAQ block, and updated legal contact links"
+git commit -m "Final: Hardcoded Address.Hair in Footer and Logo to prevent Schedule Hair leaks"
 git push
 
 echo "----------------------------------------------------"
-echo "✅ Address.Hair FINAL POLISH DEPLOYED"
-echo "✅ 4 Pricing FAQs now showing"
-echo "✅ Terms & Privacy contact links fixed"
-echo "✅ Global Schedule Hair removal complete"
+echo "✅ Address.Hair FOOTER FIXED"
+echo "✅ Brand Name Hardcoded to bypass config leaks"
+echo "✅ Global string replacement complete"
 echo "----------------------------------------------------"

@@ -1,6 +1,6 @@
 site:
-  name: Schedule Hair
-  site: 'https://schedule.hair'
+  name: Address.Hair
+  site: 'https://address.hair'
   base: '/'
   trailingSlash: false
 
@@ -9,14 +9,14 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: Schedule Hair - Effortless Salon Testimonials
-    template: '%s — Schedule Hair'
+    default: Address.Hair - Effortless Salon Testimonials
+    template: '%s — Address.Hair'
   description: "Capture salon client reviews instantly. Turn happy clients into powerful testimonials before they leave."
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: Schedule Hair
+    site_name: Address.Hair
     images:
       - url: '~/assets/images/default.png'
         width: 1200
