@@ -2,11 +2,11 @@
 title: 'Privacy Policy'
 layout: '~/layouts/MarkdownLayout.astro'
 ---
-### **Privacy Policy for Schedule Hair**
+### **Privacy Policy for Address.Hair**
 
 **Last Updated:** 11/09/2025
 
-Schedule Hair ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect the information of our business clients ("you" or "Client").
+Address.Hair ("we," "us," or "our") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and protect the information of our business clients ("you" or "Client").
 
 By using our website and services, you agree to the collection and use of information in accordance with this policy.
 
