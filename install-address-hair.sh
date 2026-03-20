@@ -1,96 +1,6 @@
 #!/bin/bash
 
-# 1. Update Pricing Page Hero & Copy
-cat << 'INNEREOF' > src/pages/pricing.astro
----
-import Layout from '~/layouts/PageLayout.astro';
-import HeroText from '~/components/widgets/HeroText.astro';
-import Pricing from '~/components/widgets/Pricing.astro';
-import FAQs from '~/components/widgets/FAQs.astro';
-import Features3 from '~/components/widgets/Features3.astro';
-import { lifetimeDeal } from '~/data/pricingData';
-
-const metadata = { 
-  title: 'Pricing | Secure Your Elite Address.Hair URL', 
-  description: 'Professional salon vanity URLs with zero monthly fees. Transform your Google Business Profile and Social Bio into a luxury portfolio.' 
-};
----
-<Layout metadata={metadata}>
-  <HeroText 
-    tagline="The Professional Standard"
-    title="A Stunning Home for Your Artistry. Live in Hours." 
-    subtitle="More than just a link—it's your salon's digital flagship. Own a beautiful vanity URL (address.hair/yoursalon) that transforms your social bio and Google 'Website' button into a high-end experience. Present your services in detail, showcase your live Instagram feed automatically, and turn casual scrollers into loyal clients with a professionally managed web presence."
-  />
-
-  <Pricing prices={[lifetimeDeal]} />
-
-  <Features3
-    title="Elevate Every Touchpoint"
-    subtitle="We bridge the gap between your hard work behind the chair and your presence online."
-    columns={3}
-    items={[
-      { 
-        title: 'Social Bio Transformation', 
-        description: 'Ditch the generic link-in-bio tools. Your Address.Hair URL provides a high-end, branded experience that keeps clients focused on your work, your services, and your booking link.', 
-        icon: 'tabler:link' 
-      },
-      { 
-        title: 'Google Business Authority', 
-        description: 'The "Website" button on your Google Profile is your most valuable real estate. Replace generic links with a dedicated salon homepage that creates a massive authority signal to local clients.', 
-        icon: 'tabler:brand-google' 
-      },
-      { 
-        title: 'Detailed Service Presentation', 
-        description: 'Standard apps hide your brilliance. We present your service menu with boutique styling, allowing you to detail your specialty color work, extensions, and styling packages beautifully.', 
-        icon: 'tabler:clipboard-list' 
-      },
-      { 
-        title: 'Live Portfolio Sync', 
-        description: 'Your best work happens daily. We pull your live Instagram feed directly onto your unique URL, ensuring your website portfolio is always current and vibrant without you lifting a finger.', 
-        icon: 'tabler:brand-instagram' 
-      },
-      { 
-        title: 'One-Time License', 
-        description: 'No monthly subscriptions or "SaaS Taxes." Pay once and own your professional identity for life. We handle the hosting, security, and updates so you can focus on your clients.', 
-        icon: 'tabler:coin' 
-      },
-      { 
-        title: 'White-Glove Delivery', 
-        description: 'We are your dedicated digital partners. From setting up your vanity URL to styling your page and syncing your feeds, we handle the technical heavy lifting with same-day delivery.', 
-        icon: 'tabler:headset' 
-      },
-    ]}
-  />
-
-  <FAQs
-    title="Pricing & Setup Questions"
-    items={[
-        { 
-          title: 'How does the "Same-Day" setup work?', 
-          description: 'Once you secure your license, we send a brief form to grab your Instagram handle and service details. If you complete that by 2PM EST, we guarantee your elite digital address will be live before the end of the business day.', 
-          icon: 'tabler:bolt' 
-        },
-        { 
-          title: 'Can I use my own .com domain?', 
-          description: 'Yes. While the free Address.Hair vanity URL is included, we can fully set up and manage your own custom .com or .salon domain for just $15/year. We handle all the DNS pointing and SSL security for you.', 
-          icon: 'tabler:world' 
-        },
-        { 
-          title: 'Is this a monthly subscription?', 
-          description: 'No. Address.Hair is a one-time investment. We charge for the setup, boutique design, and permanent hosting. Once your site is live, you never pay us a monthly fee again.', 
-          icon: 'tabler:coin' 
-        },
-        { 
-          title: 'What happens if my services change?', 
-          description: 'Our support team is here for you. Simply send us your updated menu or brand colors, and we apply the changes as part of your lifetime white-glove support package.', 
-          icon: 'tabler:settings' 
-        },
-    ]}
-  />
-</Layout>
-INNEREOF
-
-# 2. Update Pricing Widget (PayPal Form logic for Guest Checkout + New Tab)
+# 1. Update Pricing Widget with Dynamic Item Name and Digital Service (No Shipping) logic
 cat << 'INNEREOF' > src/components/widgets/Pricing.astro
 ---
 import { Icon } from 'astro-icon/components';
@@ -131,13 +41,20 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
         </div>
         
         <div class="mt-10 p-6 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+          <form id="paypal-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
             <input type="hidden" name="cmd" value="_xclick" />
             <input type="hidden" name="business" value="ZFG89TK2KESFG" />
-            <input type="hidden" name="item_name" value="Address.Hair Professional Vanity URL Setup" />
+            
+            <!-- Dynamic Item Name -->
+            <input type="hidden" id="paypal-item-name" name="item_name" value="Address.Hair Professional Vanity URL Setup" />
+            
             <input type="hidden" name="item_number" value="AHURL99" />
             <input type="hidden" name="amount" value="99.00" />
             <input type="hidden" name="currency_code" value="USD" />
+            
+            <!-- Digital Service: No Shipping Required -->
+            <input type="hidden" name="no_shipping" value="1" />
+            <input type="hidden" name="no_note" value="1" />
             
             <!-- PayPal Guest Checkout Settings -->
             <input type="hidden" name="solution_type" value="Sole">
@@ -174,6 +91,7 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
               <input type="hidden" name="on1" value="Salon Name" />
               <input 
                 type="text" 
+                id="salon-name-input"
                 name="os1" 
                 required 
                 class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg dark:bg-slate-900 dark:border-slate-600 transition-all" 
@@ -197,17 +115,29 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
 
 <script is:inline>
   function initVanityPreview() {
-    const input = document.getElementById('vanity-input');
-    const preview = document.getElementById('vanity-preview');
+    const vanityInput = document.getElementById('vanity-input');
+    const vanityPreview = document.getElementById('vanity-preview');
+    const salonInput = document.getElementById('salon-name-input');
+    const paypalItemName = document.getElementById('paypal-item-name');
     
-    if (input && preview) {
+    if (vanityInput && vanityPreview && salonInput && paypalItemName) {
       const update = () => {
-        let val = input.value.toLowerCase().replace(/[^a-z0-9]/g, '');
-        input.value = val;
-        preview.textContent = val || 'yoursalon';
+        // Clean Vanity Input
+        let vVal = vanityInput.value.toLowerCase().replace(/[^a-z0-9]/g, '');
+        vanityInput.value = vVal;
+        vanityPreview.textContent = vVal || 'yoursalon';
+
+        // Update PayPal Item Name to show in cart
+        const salonVal = salonInput.value || 'New Salon';
+        const displayVanity = vVal || 'yoursalon';
+        
+        paypalItemName.value = `Address.Hair: ${displayVanity}.address.hair (${salonVal})`;
       };
 
-      input.addEventListener('input', update);
+      vanityInput.addEventListener('input', update);
+      salonInput.addEventListener('input', update);
+      
+      // Run once on load
       update();
     }
   }
@@ -216,13 +146,12 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
 </script>
 INNEREOF
 
-# 3. Execution: Git Push
+# 2. Execution: Git Push
 git add .
-git commit -m "UI: Overhauled Pricing copy and updated PayPal form for Guest Checkout in new tab"
+git commit -m "PayPal: Added dynamic item naming and disabled shipping for digital service"
 git push
 
 echo "----------------------------------------------------"
-echo "✅ Pricing Page: Narrative updated for conversion"
-echo "✅ PayPal Form: target='_blank' added"
-echo "✅ PayPal Form: Billing/Guest landing page forced"
+echo "✅ PayPal: shipping disabled (no_shipping=1)"
+echo "✅ PayPal: Item Name now includes Vanity + Salon Name"
 echo "----------------------------------------------------"
