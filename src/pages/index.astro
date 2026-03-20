@@ -1,0 +1,56 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Header from '~/components/widgets/Header.astro';
+import Hero2 from '~/components/widgets/Hero2.astro';
+import Features from '~/components/widgets/Features.astro';
+import Steps2 from '~/components/widgets/Steps2.astro';
+import Content from '~/components/widgets/Content.astro';
+import Pricing from '~/components/widgets/Pricing.astro';
+import { headerData } from '~/navigation';
+import FAQs from '~/components/widgets/FAQs.astro';
+import { lifetimeDeal } from '~/data/pricingData';
+
+const metadata = { title: 'Schedule.Hair | The Pro Choice for Salon Vanity URLs', description: 'Replace generic links with a beautiful scheduling page on your own professional domain. Instant Google Business Profile integration.' };
+---
+<Layout metadata={metadata}>
+  <Fragment slot="header"><Header {...headerData} isSticky /></Fragment>
+  <Hero2
+    tagline="Boutique Web Development for Salons"
+    title='<span class="text-accent dark:text-white">Your Salon. Your Domain. Your Rules.</span>'
+    subtitle="Generic booking links look cheap. We build you a professional vanity booking URL (yoursalon.schedule.hair) that integrates directly with your Google Business 'Schedule' button. Same-day setup, zero tech stress."
+    actions={[{ variant: 'primary', text: 'Get Your Booking Link Today', href: '/pricing/' }, { text: 'See How It Works', href: '#howitworks' }]}
+    image={{ src: '/images/hero-poster.webp', width: 1024, height: 576 }}
+  />
+  <Features
+    id="features"
+    title="Dominate Your Local Market"
+    items={[
+        { title: 'The "Schedule" Button Pro', description: 'We help you link your vanity URL to the official Google "Schedule" button so clients can book directly from Search.', icon: 'tabler:brand-google' },
+        { title: 'Instant Vanity URLs', description: 'Ditch the long, ugly ID strings. Own a link your clients can actually type and remember.', icon: 'tabler:link' },
+        { title: 'Boutique Design', description: 'Every app is custom-styled to match your salon’s interior and vibe.', icon: 'tabler:palette' },
+        { title: 'Same-Day Delivery', description: 'If you order by 2PM, your vanity URL and booking engine are live before you close for the day.', icon: 'tabler:bolt' },
+    ]}
+  />
+  <div id="howitworks" class="scroll-mt-20">
+    <Steps2
+      title="Same-Day Professional Setup"
+      items={[
+        { title: '1. Claim Your URL', description: 'Pick your vanity name and secure the $99 lifetime license.', icon: 'tabler:number-1' },
+        { title: '2. We Build the Engine', description: 'Our team builds your mobile-first booking app and styles it to your brand.', icon: 'tabler:number-2' },
+        { title: '3. Sync & Book', description: 'We help you drop the link into your Google Profile and Instagram. Start taking appointments instantly.', icon: 'tabler:number-3' },
+      ]}
+      image={{ src: '/images/testimonial-6.webp', alt: 'Scheduling interface' }}
+    />
+  </div>
+  <Pricing title='One-Time Investment. Forever Access.' prices={[lifetimeDeal]} />
+  <FAQs
+    title="Deep Dive: How Schedule.Hair Works"
+    subtitle="Everything you need to know about upgrading your salon's digital presence."
+    items={[
+        { title: 'What exactly is a "Vanity URL"?', description: 'Most booking software gives you a messy link like "app.sq.com/u/123-abc". We replace that with a clean, branded address like <strong>velvet.schedule.hair</strong>. It looks professional, builds trust, and is easy for clients to share via text or DM.', icon: 'tabler:link' },
+        { title: 'How do you help with Google Business Profiles?', description: 'A Vanity URL is useless if clients can’t find it. We provide a step-by-step "White-Glove" guide to linking your new URL to the blue "Schedule" button on your Google Business listing. This triggers Google’s local SEO signals, helping you rank higher when clients search for stylists in your area.', icon: 'tabler:brand-google' },
+        { title: 'Is it really "Same-Day" Setup?', description: 'Yes. We don’t make you wait for weeks. Our team works in real-time. Once you provide your basic info (services and availability), we deploy your app within hours. If you purchase during business hours, you will usually be live before your next client is out of the chair.', icon: 'tabler:bolt' },
+        { title: 'Do I need to cancel my existing booking software?', description: 'No! You can use Schedule.Hair as your primary engine, OR as a beautiful "front-door" for your existing system. We act as the high-end presentation layer that makes the booking experience feel like a luxury service before they even arrive.', icon: 'tabler:device-laptop' },
+    ]}
+  />
+</Layout>

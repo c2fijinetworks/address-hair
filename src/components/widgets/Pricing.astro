@@ -1,0 +1,125 @@
+---
+import { Icon } from 'astro-icon/components';
+import Button from '~/components/ui/Button.astro';
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import type { Price } from '~/types';
+
+const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.props;
+---
+
+<WidgetWrapper {...rest} id="pricing" classes={{ container: 'max-w-7xl scroll-mt-16', ...classes.container }} hasBackground>
+  <Headline {title} {subtitle} {tagline} classes={{ headline: 'max-w-3xl' }} />
+  
+  <div class="flex justify-center">
+    {prices.map((price) => (
+      <div class="relative overflow-visible flex flex-col rounded-lg border-2 border-primary p-8 text-center shadow-2xl w-full max-w-lg bg-white dark:bg-slate-900">
+        
+        {/* Ribbon for Lifetime Deal */}
+        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-accent text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest">
+            Lifetime Access
+        </div>
+
+        <h3 class="text-2xl font-bold mt-2">{price.title}</h3>
+        
+        <div class="mt-8 flex-1">
+          <div class="flex items-end justify-center">
+            <span class="text-5xl font-bold tracking-tight text-primary">${price.price}</span>
+            <span class="ml-1 text-xl font-medium text-muted">/ once</span>
+          </div>
+          <ul role="list" class="mt-8 space-y-4 text-left">
+            {price.items.map((item) => (
+              <li class="flex items-start">
+                <Icon name="tabler:circle-check" class="w-6 h-6 text-green-500 flex-shrink-0" />
+                <p class="ml-3 text-base text-muted">{item.description}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        <div class="mt-10 p-6 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_xclick" />
+            <input type="hidden" name="business" value="ZFG89TK2KESFG" />
+            <input type="hidden" name="item_name" value="Schedule Hair Professional Vanity URL Setup" />
+            <input type="hidden" name="item_number" value="SHURL99" />
+            <input type="hidden" name="amount" value="99.00" />
+            <input type="hidden" name="currency_code" value="USD" />
+            
+            <div class="text-left mb-4">
+              <label class="block text-sm font-bold mb-2 text-slate-700 dark:text-gray-300">
+                1. Choose Your Vanity URL
+              </label>
+              <div class="relative">
+                <input type="hidden" name="on0" value="Vanity URL" />
+                <input 
+                    type="text" 
+                    id="vanity-input" 
+                    name="os0" 
+                    required 
+                    class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:ring-primary focus:border-primary dark:bg-slate-900 dark:border-slate-600 transition-all font-semibold" 
+                    placeholder="yoursalon" 
+                />
+              </div>
+              
+              {/* IMPROVED PREVIEW UI */}
+              <div class="mt-3 p-3 bg-white dark:bg-slate-950 rounded border border-dashed border-primary/50 flex items-center gap-2 overflow-hidden">
+                <Icon name="tabler:world" class="w-4 h-4 text-primary animate-pulse" />
+                <span class="text-sm font-mono truncate">
+                    <span class="text-slate-400">https://</span><span id="vanity-preview" class="text-primary font-bold">yoursalon</span><span class="text-slate-400">.schedule.hair</span>
+                </span>
+              </div>
+            </div>
+
+            <div class="text-left mb-6">
+              <label class="block text-sm font-bold mb-2 text-slate-700 dark:text-gray-300">
+                2. Salon Name
+              </label>
+              <input type="hidden" name="on1" value="Salon Name" />
+              <input 
+                type="text" 
+                name="os1" 
+                required 
+                class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg dark:bg-slate-900 dark:border-slate-600 transition-all" 
+                placeholder="Business Name" 
+              />
+            </div>
+
+            <button type="submit" class="w-full py-4 px-4 bg-primary hover:bg-blue-700 text-white font-extrabold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 text-lg">
+              Secure My URL Today
+            </button>
+            <div class="flex items-center justify-center gap-2 mt-4 text-slate-500">
+                <Icon name="tabler:lock" class="w-4 h-4" />
+                <p class="text-xs font-medium uppercase tracking-tighter">Safe One-Time Payment via PayPal</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    ))}
+  </div>
+</WidgetWrapper>
+
+<script is:inline>
+  function initVanityPreview() {
+    const input = document.getElementById('vanity-input');
+    const preview = document.getElementById('vanity-preview');
+    
+    if (input && preview) {
+      const update = () => {
+        // Force lowercase, remove spaces and non-alphanumeric
+        let val = input.value.toLowerCase().replace(/[^a-z0-9]/g, '');
+        input.value = val;
+        preview.textContent = val || 'yoursalon';
+      };
+
+      input.addEventListener('input', update);
+      // Run once on load to catch browser autofill
+      update();
+    }
+  }
+
+  // Ensure it runs even with Astro's View Transitions
+  document.addEventListener('astro:page-load', initVanityPreview);
+  // Fallback for standard loads
+  initVanityPreview();
+</script>

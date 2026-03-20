@@ -1,0 +1,132 @@
+---
+import Button from '~/components/ui/Button.astro';
+import { Icon } from 'astro-icon/components';
+
+const {
+  tagline,
+  title,
+  subtitle,
+  actions = [],
+  image = {},
+  video = null,
+  poster = null,
+  testimonial = null,
+} = Astro.props;
+---
+
+<section class="relative md:-mt-[76px] not-prose">
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="pt-10 md:pt-20">
+      <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+        
+        <!-- Left Column: Text Content -->
+        <div class="w-full text-center md:text-left flex flex-col justify-center min-h-[300px]">
+          {tagline && (
+            <p class="font-bold dark:text-gray-400 text-base text-secondary tracking-widest uppercase mb-2">
+              {tagline}
+            </p>
+          )}
+          
+          {title && (
+            <h1 class="font-bold font-heading leading-tighter tracking-tighter mb-4 md:text-6xl text-4xl" set:html={title}>
+            </h1>
+          )}
+
+          <div class="max-w-3xl mx-auto md:mx-0">
+            {subtitle && (
+              <p class="text-muted text-xl mb-8" set:html={subtitle} />
+            )}
+            
+            {actions && actions.length > 0 && (
+              <div class="flex flex-col gap-4 max-w-xs md:justify-start md:mx-0 mx-auto sm:flex-row sm:justify-center sm:max-w-md">
+                {actions.map((action) => (
+                  <Button {...action} />
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <!-- Right Column: Media (Video with Overlay) -->
+        <div class="relative w-full">
+          {video ? (
+            <div class="relative rounded-md overflow-hidden shadow-lg w-11/12 mx-auto md:ml-auto group cursor-pointer" id="video-container">
+                <video 
+                    id="hero-video"
+                    src={video} 
+                    class="w-full h-auto object-cover block" 
+                    controls 
+                    playsinline
+                    preload="metadata"
+                    poster={poster || image?.src} 
+                ></video>
+                
+                <!-- Big Play Button Overlay -->
+                <div id="play-overlay" class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-all duration-300">
+                    <div class="w-20 h-20 md:w-24 md:h-24 bg-primary rounded-full flex items-center justify-center shadow-2xl transform group-hover:scale-110 transition-transform">
+                        <Icon name="tabler:player-play-filled" class="w-10 h-10 md:w-12 md:h-12 text-white ml-1" />
+                    </div>
+                </div>
+
+                <!-- Testimonial Overlay -->
+                {testimonial && (
+                    <div id="testimonial-overlay" class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6 pt-12 text-center pointer-events-none transition-opacity duration-500">
+                        <p class="text-white italic text-base md:text-lg mb-2 font-medium">"{testimonial.quote}"</p>
+                        <div class="flex justify-center gap-1 mb-1 text-yellow-400">
+                            {[...Array(5)].map(() => (
+                                <Icon name="tabler:star-filled" class="w-4 h-4" />
+                            ))}
+                        </div>
+                        <p class="text-white font-bold text-sm">— {testimonial.name}</p>
+                    </div>
+                )}
+            </div>
+          ) : (
+            image && (
+                <img src={image.src} alt={image.alt} class="w-11/12 h-auto md:ml-auto mx-auto rounded-md shadow-lg" />
+            )
+          )}
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  function setupHeroVideo() {
+    const video = document.getElementById('hero-video');
+    const overlay = document.getElementById('play-overlay');
+    const testimonial = document.getElementById('testimonial-overlay');
+
+    if (!video || !overlay) return;
+
+    const hideUI = () => {
+        overlay.style.display = 'none';
+        if (testimonial) testimonial.style.opacity = '0';
+    };
+
+    const showUI = () => {
+        overlay.style.display = 'flex';
+        if (testimonial) testimonial.style.opacity = '1';
+    };
+
+    overlay.addEventListener('click', () => {
+        video.play();
+        hideUI();
+    });
+    
+    video.addEventListener('play', hideUI);
+    video.addEventListener('ended', showUI);
+    video.addEventListener('pause', (e) => {
+        // Only show overlay if user manually paused and video isn't finished
+        if (video.currentTime > 0 && !video.ended) {
+            overlay.style.display = 'flex';
+        }
+    });
+  }
+
+  setupHeroVideo();
+  document.addEventListener('astro:after-swap', setupHeroVideo);
+</script>

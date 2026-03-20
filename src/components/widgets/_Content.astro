@@ -1,0 +1,56 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline,
+  content = await Astro.slots.render('content'),
+  items = [],
+  image = await Astro.slots.render('image'),
+  isReversed = false,
+  isAfterContent = false,
+} = Astro.props;
+---
+
+<section class:list={[{ 'pt-8 md:pt-16': !isAfterContent }]}>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="md:flex md:gap-16">
+      <div class:list={['md:basis-1/2', { 'md:order-1': isReversed }]}>
+        {image && (
+          <div class="relative m-auto max-w-5xl">
+            {typeof image === 'string' ? (
+              <Fragment set:html={image} />
+            ) : (
+              <img src={image.src} alt={image.alt} width={image.width} height={image.height} class="mx-auto rounded-lg" loading="lazy" decoding="async" />
+            )}
+          </div>
+        )}
+      </div>
+      <div class="md:basis-1/2">
+        {tagline && <p class="text-base text-secondary dark:text-gray-400 font-bold tracking-widest uppercase mb-2">{tagline}</p>}
+        {title && <h2 class="text-3xl md:text-4xl font-bold leading-tighter tracking-tighter mb-4 font-heading">{title}</h2>}
+        {subtitle && <p class="text-lg text-muted mb-6" set:html={subtitle} />}
+        {content && <div class="text-lg text-muted" set:html={content} />}
+        {items && (
+          <ul class="space-y-8">
+            {items.map(({ title: itemTitle, description, icon }) => (
+              <li class="flex max-w-md">
+                <div class="flex-shrink-0">
+                  <div class="flex items-center justify-center h-12 w-12 rounded-full bg-primary text-gray-50">
+                    {icon && <Icon name={icon} class="w-6 h-6" />}
+                  </div>
+                </div>
+                <div class="ml-4">
+                  {itemTitle && <h3 class="text-lg leading-6 font-medium">{itemTitle}</h3>}
+                  {description && <p class="mt-2 text-base text-muted" set:html={description} />}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+

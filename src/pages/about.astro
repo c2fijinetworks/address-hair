@@ -1,0 +1,43 @@
+---
+import Hero2 from '~/components/widgets/Hero2.astro';
+import Content from '~/components/widgets/Content.astro';
+import Layout from '~/layouts/PageLayout.astro';
+import Pricing from '~/components/widgets/Pricing.astro';
+import { lifetimeDeal } from '~/data/pricingData';
+
+const metadata = { 
+  title: 'Our Mission | Schedule.Hair', 
+  description: 'Why your salon deserves a professional vanity URL and a high-end booking experience.' 
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero2
+    tagline="The Professional Standard"
+    title='More Than Just a <span class="text-accent">Schedule Button</span>'
+    subtitle="When a client sees your salon on Google, that blue 'Schedule' button is their first point of contact. We make sure that click leads to a premium branded experience, not a generic spreadsheet."
+    actions={[{ variant: 'primary', text: 'Secure My URL', href: '/pricing/' }]}
+    image={{ src: '/images/hero-poster.webp', alt: 'Schedule.Hair Professional Branding' }}
+  />
+  
+  <Content
+    isReversed
+    items={[
+        { title: 'Custom Vanity Branding', description: 'No generic logos. Your booking page is 100% focused on YOUR salon artistry.', icon: 'tabler:check' },
+        { title: 'Mobile-First Speed', description: 'Load times are 3x faster than traditional booking platforms, preventing client drop-off.', icon: 'tabler:device-mobile' },
+        { title: 'Google SEO Signal', description: 'Custom URLs indexed by Google help your shop climb the local rankings faster.', icon: 'tabler:rocket' },
+        { title: 'Zero Distractions', description: 'We don’t show other salons or "recommended" stylists nearby. We keep the client focused on you.', icon: 'tabler:eye-off' },
+        { title: 'Trust & Credibility', description: 'A custom schedule.hair domain signals that you are an established, elite professional.', icon: 'tabler:shield-check' },
+    ]}
+  >
+    <Fragment slot="content">
+      <h3 class="text-3xl font-bold mb-4">Professionalism: Stand Out in a Sea of Generic Apps</h3>
+      <p class="text-lg text-muted">In the modern beauty industry, your digital handshake is your URL. We provide the polish your brand deserves.</p>
+    </Fragment>
+    <Fragment slot="image">
+       <img src="/images/testimonial-4.webp" alt="Elite salon styling" class="rounded-lg shadow-xl w-full" />
+    </Fragment>
+  </Content>
+
+  <Pricing title="Ready to Own Your Professional Identity?" prices={[lifetimeDeal]} />
+</Layout>

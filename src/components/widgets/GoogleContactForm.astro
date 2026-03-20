@@ -1,0 +1,220 @@
+---
+// src/components/widgets/GoogleContactForm.astro
+
+// --- CONFIGURATION ---
+const GOOGLE_FORM_ACTION_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdOFvirP0L_M66yEYve08KUkZAj3c-Oz-wUX2xyNiDSH3lueA/formResponse";
+const NAME_FIELD_ID = "entry.1720357166";
+const EMAIL_FIELD_ID = "entry.521124223";
+const BUSINESS_NAME_FIELD_ID = "entry.244402611";
+const MESSAGE_FIELD_ID = "entry.678787459";
+const URL_FIELD_ID = "entry.1561914101";
+
+// This is a public key. Replace if you have a different one.
+const RECAPTCHA_SITE_KEY = "6LeFqLkrAAAAAITkogAgwCgceQikiDcDH0E80Mcu";
+---
+
+<div class="not-prose">
+  <div class="contact-form-container">
+    <div id="contact-form-wrapper">
+      <h4>Get in touch today</h4>
+      <form 
+        id="google-contact-form" 
+        method="POST" 
+        action={GOOGLE_FORM_ACTION_URL} 
+        target="hidden_iframe_contact" 
+        novalidate
+      >
+        <div class="form-group">
+          <label for="contact-name">Name</label>
+          <input 
+            type="text" 
+            name={NAME_FIELD_ID} 
+            id="contact-name"
+            placeholder="Your Name"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="contact-email">Email</label>
+          <input 
+            type="email" 
+            name={EMAIL_FIELD_ID} 
+            id="contact-email"
+            placeholder="your.email@example.com"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="contact-business-name">Your Business Name</label>
+          <input 
+            type="text" 
+            name={BUSINESS_NAME_FIELD_ID} 
+            id="contact-business-name"
+            placeholder="Your Company Inc."
+            required
+          />
+        </div>
+  
+        <div class="form-group">
+          <label for="contact-message">Message</label>
+          <textarea 
+            name={MESSAGE_FIELD_ID}
+            id="contact-message" 
+            rows="5"
+            placeholder="Your message..."
+            required
+          ></textarea>
+        </div>
+  
+        <!-- Hidden input for URL. Value is set by JS before submission. -->
+        <input type="hidden" name={URL_FIELD_ID} value="" />
+  
+        <div class="g-recaptcha-container">
+            <div id="recaptcha-contact" class="g-recaptcha"></div> 
+        </div>
+        
+        <div id="contact-error-message" style="display: none;"></div>
+  
+        <button type="submit" class="submit-button">Send Message</button>
+      </form>
+    </div>
+
+    <div id="success-message" style="display: none;">
+      <h4>Thank You!</h4>
+      <p>Your message has been sent successfully. We'll get back to you shortly.</p>
+      <button type="button" id="send-another-message-button" class="submit-button mt-4">Send Another Message</button>
+    </div>
+  </div>
+</div>
+
+<iframe name="hidden_iframe_contact" id="hidden_iframe_contact" style="display: none;" onload="contactFormSubmitCallback()"></iframe>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallbackContact&render=explicit" async defer></script>
+
+<script define:vars={{ URL_FIELD_ID, RECAPTCHA_SITE_KEY }}>
+    let contactRecaptchaWidgetId;
+
+    window.onloadCallbackContact = function() {
+        const recaptchaContainer = document.getElementById('recaptcha-contact');
+        if (recaptchaContainer && typeof grecaptcha !== 'undefined' && !recaptchaContainer.hasChildNodes()) {
+            contactRecaptchaWidgetId = grecaptcha.render('recaptcha-contact', {
+                'sitekey' : RECAPTCHA_SITE_KEY
+            });
+        }
+    };
+
+    window.contactFormSubmitCallback = function() {
+        const formWrapper = document.getElementById('contact-form-wrapper');
+        const successMessageDiv = document.getElementById('success-message');
+        if (formWrapper && successMessageDiv) {
+            formWrapper.style.display = 'none';
+            successMessageDiv.style.display = 'block';
+            if (typeof grecaptcha !== 'undefined' && grecaptcha.reset && contactRecaptchaWidgetId !== undefined) {
+                grecaptcha.reset(contactRecaptchaWidgetId);
+            }
+        }
+    }
+
+    function initializeContactForm() {
+        const form = document.getElementById('google-contact-form');
+        if (!form || form.dataset.listenerAttached) {
+            return;
+        }
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const errorMessageDiv = document.getElementById('contact-error-message');
+            const nameInput = form.querySelector('#contact-name');
+            const emailInput = form.querySelector('#contact-email');
+            const businessNameInput = form.querySelector('#contact-business-name');
+            const messageInput = form.querySelector('#contact-message');
+            const urlInput = form.querySelector(`input[name="${URL_FIELD_ID}"]`);
+            
+            errorMessageDiv.style.display = 'none';
+            errorMessageDiv.textContent = '';
+
+            if (typeof grecaptcha === 'undefined' || !grecaptcha) {
+                errorMessageDiv.textContent = 'reCAPTCHA error. Please refresh.';
+                errorMessageDiv.style.display = 'block';
+                return;
+            }
+            
+            const recaptchaResponse = grecaptcha.getResponse(contactRecaptchaWidgetId);
+
+            if (!nameInput.value.trim()) {
+                errorMessageDiv.textContent = 'Please enter your name.';
+                errorMessageDiv.style.display = 'block';
+                return;
+            }
+            if (!emailInput.value || !emailInput.checkValidity()) {
+                errorMessageDiv.textContent = 'Please enter a valid email address.';
+                errorMessageDiv.style.display = 'block';
+                return;
+            }
+            if (!businessNameInput.value.trim()) {
+                errorMessageDiv.textContent = 'Please enter your business name.';
+                errorMessageDiv.style.display = 'block';
+                return;
+            }
+            if (!messageInput.value.trim()) {
+                errorMessageDiv.textContent = 'Please enter a message.';
+                errorMessageDiv.style.display = 'block';
+                return;
+            }
+            if (!recaptchaResponse) {
+                errorMessageDiv.textContent = 'Please complete the reCAPTCHA.';
+                errorMessageDiv.style.display = 'block';
+                return;
+            }
+            
+            // Set the URL from the browser's current location
+            if (urlInput) {
+                urlInput.value = window.location.href;
+            }
+
+            form.submit();
+        });
+
+        const sendAnotherButton = document.getElementById('send-another-message-button');
+        if (sendAnotherButton) {
+            sendAnotherButton.addEventListener('click', function() {
+                const formWrapper = document.getElementById('contact-form-wrapper');
+                const successMessageDiv = document.getElementById('success-message');
+                formWrapper.style.display = 'block';
+                successMessageDiv.style.display = 'none';
+                form.reset();
+                if (typeof grecaptcha !== 'undefined' && grecaptcha.reset && contactRecaptchaWidgetId !== undefined) {
+                    grecaptcha.reset(contactRecaptchaWidgetId);
+                }
+                document.getElementById('contact-error-message').style.display = 'none';
+            });
+        }
+
+        form.dataset.listenerAttached = 'true';
+    }
+
+    document.addEventListener('astro:page-load', initializeContactForm);
+    
+    if (typeof grecaptcha !== 'undefined' && grecaptcha.render) {
+        onloadCallbackContact();
+    }
+</script>
+
+<style>
+  .contact-form-container { padding: 2rem; background-color: transparent; border: none; border-radius: 0.5rem; max-width: 600px; margin: -3rem auto 2rem; }
+  .contact-form-container h4 { text-align: center; font-size: 1.5rem; font-weight: 600; margin-top: 0; }
+  .contact-form-container p { text-align: center; margin-bottom: 1.5rem; color: var(--aw-color-text-muted); }
+  .form-group { margin-bottom: 1.25rem; }
+  .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+  .form-group input, .form-group textarea { width: 100%; padding: 0.75rem 1rem; font-size: 1rem; border: 1px solid #d1d5db; border-radius: 0.375rem; background-color: var(--aw-color-bg-page); color: var(--aw-color-text-default); }
+  .dark .form-group input, .dark .form-group textarea { border-color: #4a5568; }
+  .g-recaptcha-container { display: flex; justify-content: center; margin: 1.5rem 0; }
+  #contact-error-message { color: #c53030; background-color: #fed7d7; border: 1px solid #fbb6b6; padding: 0.75rem 1rem; border-radius: 0.375rem; margin-bottom: 1rem; text-align: center; font-size: 0.875rem; }
+  .dark #contact-error-message { color: #fed7d7; background-color: #721c24; border-color: #f5c6cb; }
+  .submit-button { width: 100%; padding: 0.75rem 1rem; font-size: 1rem; font-weight: 600; color: #fff; background-color: var(--aw-color-primary); border: none; border-radius: 0.375rem; cursor: pointer; transition: background-color 0.2s ease; margin-top: 1rem; }
+  .submit-button:hover { background-color: var(--aw-color-secondary); }
+  #success-message { text-align: center; }
+</style>

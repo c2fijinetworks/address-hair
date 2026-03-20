@@ -1,0 +1,43 @@
+---
+import Button from '~/components/ui/Button.astro';
+
+const {
+  tagline,
+  title,
+  subtitle,
+  actions = [],
+  image = {},
+} = Astro.props;
+---
+
+<section class="relative md:-mt-[76px] not-prose">
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
+    <div class="pt-10 md:pt-20">
+      <div class="grid md:grid-cols-2 gap-10 md:gap-16">
+        <div class="max-w-xl mx-auto md:max-w-none md:mx-0 text-center md:text-left md:flex md:flex-col md:justify-center">
+          <div> 
+            {tagline && <p class="text-base text-secondary dark:text-gray-400 font-bold tracking-widest uppercase">{tagline}</p>}
+            {title && <h1 class="text-4xl md:text-6xl font-bold leading-tighter tracking-tighter mb-4 font-heading" set:html={title}></h1>}
+            <div class="max-w-3xl mx-auto md:mx-0">
+              {subtitle && <p class="text-xl text-muted mb-8" set:html={subtitle} />}
+              {actions && (
+                <div class="flex flex-col sm:flex-row gap-4 max-w-xs sm:max-w-md mx-auto md:mx-0 sm:justify-center md:justify-start">
+                  {actions.map((action) => (
+                    <Button {...action} />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+        {image && (
+          <div class="relative m-auto max-w-5xl">
+            <img src={image.src} alt={image.alt} width={image.width} height={image.height} class="w-11/12 h-auto md:ml-auto mx-auto rounded-md" loading="lazy" decoding="async" />
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>
+

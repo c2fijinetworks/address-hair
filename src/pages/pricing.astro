@@ -1,0 +1,41 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import Pricing from '~/components/widgets/Pricing.astro';
+import FAQs from '~/components/widgets/FAQs.astro';
+import Features3 from '~/components/widgets/Features3.astro';
+import { lifetimeDeal } from '~/data/pricingData';
+import Hero from '~/components/widgets/Hero.astro';
+
+const metadata = { title: 'Pricing - Schedule.Hair | Save $600/year', description: 'Professional salon booking URLs with zero monthly fees. One-time setup, lifetime hosting.' };
+---
+<Layout metadata={metadata}>
+  <HeroText 
+    tagline="Invest Once. Own It Forever."
+    title="Stop Paying the 'SaaS Tax'." 
+    subtitle="Most booking systems charge $50–$150 every single month. At Schedule.Hair, you pay a flat $99 one-time fee for your vanity URL and boutique booking engine. That is $600+ back in your pocket every year."
+  />
+
+  <Pricing prices={[lifetimeDeal]} />
+
+  <Features3
+    title="Everything Included in Your $99 License"
+    columns={3}
+    items={[
+      { title: 'Vanity URL Setup', description: 'Your own branded address (yoursalon.schedule.hair) for life.', icon: 'tabler:link' },
+      { title: 'GBP Sync Help', description: 'White-glove support to link your URL to Google Business Profile.', icon: 'tabler:brand-google' },
+      { title: 'Boutique Design', description: 'Custom brand colors and logo integration for a luxury feel.', icon: 'tabler:palette' },
+      { title: 'Mobile Optimization', description: 'Ultra-fast loading for clients booking on iPhone or Android.', icon: 'tabler:device-mobile' },
+      { title: 'Unlimited Services', description: 'List everything from quick trims to full balayage packages.', icon: 'tabler:infinity' },
+      { title: 'Lifetime Updates', description: 'All future software improvements included at no extra cost.', icon: 'tabler:refresh' },
+    ]}
+  />
+
+  <FAQs
+    title="Pricing Questions"
+    items={[
+        { title: 'Are there really no monthly fees?', description: 'None. We charge for our expertise in setup and professional hosting. Once it is live, you never pay us another dime.', icon: 'tabler:coin' },
+        { title: 'What happens if I change my salon name?', description: 'No problem. We can update your vanity URL for a small maintenance fee, or you can keep your original for life.', icon: 'tabler:settings' },
+    ]}
+  />
+</Layout>

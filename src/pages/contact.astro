@@ -1,0 +1,51 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import HeroText from '~/components/widgets/HeroText.astro';
+import GoogleContactForm from '~/components/widgets/GoogleContactForm.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Features from '~/components/widgets/Features.astro';
+
+const metadata = {
+  title: 'Contact Support | Schedule Hair',
+  description: 'Have questions about the lifetime deal or need a multi-location quote? Contact our team today.',
+  ignoreTitleTemplate: true,
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- HeroText Widget -->
+  <HeroText 
+    tagline="We're in your corner ⭐⭐⭐⭐⭐"
+    title="Let's Talk About Your Salon." 
+    subtitle="Have questions about the lifetime deal? Need a bulk discount for multiple locations? Or just want to check up? We respond faster than a blow-dry."
+  />
+
+  <!-- Google Contact Form Widget -->
+  <GoogleContactForm />
+
+  <!-- Added Features Widget to show we are a real business with support -->
+  <Features
+    class="-mt-16"
+    columns={3}
+    items={[
+      {
+        title: 'Multi-Location Discounts',
+        description: 'Running a franchise or multiple shops? Contact us for custom bulk pricing on 3+ locations.',
+        icon: 'tabler:building-store',
+      },
+      {
+        title: 'White-Glove Support',
+        description: 'Need help with your widget installation? Let us help you with that.',
+        icon: 'tabler:headset',
+      },
+      {
+        title: 'Partnerships',
+        description: 'Are you a salon consultant? Let’s work together.',
+        icon: 'tabler:users',
+      },
+    ]}
+  />
+
+  <!-- Image -->
+  <Hero class="-mt-16" image={{ src: '/images/testimonial-7.webp', alt: 'Schedule Hair happy client' }} />
+</Layout>

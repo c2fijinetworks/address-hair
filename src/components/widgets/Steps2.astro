@@ -1,0 +1,59 @@
+---
+import { Icon } from 'astro-icon/components';
+import Button from '~/components/ui/Button.astro';
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  callToAction = {},
+  items = [], // Ensure this is destructuring
+  image = {},
+} = Astro.props;
+---
+
+<section class="bg-primary-50 dark:bg-slate-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-12 md:pt-16 pb-12 md:pb-16"> <!-- Added bottom padding -->
+    <div class="grid md:grid-cols-2 gap-16">
+      
+      <!-- Left Column -->
+      <div class="flex flex-col justify-center">
+        {title && <h2 class="text-3xl md:text-4xl font-bold font-heading mb-4" set:html={title}></h2>}
+        {subtitle && <p class="text-muted dark:text-slate-400 mb-8 text-xl" set:html={subtitle}></p>}
+        
+        <!-- NEW: Render items if they exist to fill space -->
+        {items && items.length > 0 && (
+          <div class="grid gap-6 mb-8">
+            {items.map(({ title: ititle, description, icon }) => (
+              <div class="flex">
+                <div class="flex-shrink-0 mt-1">
+                  <div class="flex items-center justify-center h-10 w-10 rounded-full bg-primary text-white">
+                    <Icon name={icon || 'tabler:check'} class="w-6 h-6" />
+                  </div>
+                </div>
+                <div class="ml-4">
+                  <h3 class="text-lg font-semibold">{ititle}</h3>
+                  <p class="text-muted dark:text-slate-400">{description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {callToAction && callToAction.text && (
+          <div class="w-fit">
+            <Button {...callToAction} />
+          </div>
+        )}
+      </div>
+      
+      <!-- Right Column -->
+      <div>
+        {image && image.src && (
+          <div class="relative m-auto max-w-5xl">
+            <img src={image.src} alt={image.alt} class="mx-auto rounded-lg shadow-lg" loading="lazy" decoding="async" />
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

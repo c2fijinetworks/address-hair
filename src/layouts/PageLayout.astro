@@ -1,0 +1,49 @@
+---
+// ADDED BACK THE CRITICAL STYLESHEET IMPORT
+import '~/assets/styles/tailwind.css';
+
+import Layout from '~/layouts/Layout.astro';
+import Header from '~/components/widgets/Header.astro';
+import Footer from '~/components/widgets/Footer.astro';
+import Announcement from '~/components/widgets/Announcement.astro';
+// ADDED THE NEW STICKY FOOTER IMPORT
+import StickyFooterCTA from '~/components/widgets/StickyFooterCTA.astro';
+
+import { headerData, footerData } from '~/navigation';
+
+import type { MetaData } from '~/types';
+
+export interface Props {
+  metadata?: MetaData;
+}
+
+const { metadata } = Astro.props;
+---
+
+<Layout metadata={metadata}>
+  <style is:global>
+    /* 
+      This rule targets any <section> that is an immediate sibling of another <section>
+      within the <main> element. It removes the top padding to prevent the "double padding"
+      issue between widgets, creating consistent vertical spacing.
+    */
+    main > section + section {
+      padding-top: 0;
+    }
+  </style>
+  <slot name="announcement">
+    <Announcement />
+  </slot>
+  <slot name="header">
+    <!-- REMOVED showRssFeed PROP -->
+    <Header {...headerData} isSticky showToggleTheme />
+  </slot>
+  <main>
+    <slot />
+  </main>
+  <slot name="footer">
+    <Footer {...footerData} />
+  </slot>
+  <!-- ADDED THE STICKY FOOTER COMPONENT -->
+  <StickyFooterCTA />
+</Layout>

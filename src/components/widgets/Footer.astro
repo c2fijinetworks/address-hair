@@ -1,0 +1,70 @@
+---
+import { Icon } from 'astro-icon/components';
+import { SITE } from 'astrowind:config';
+import { getHomePermalink } from '~/utils/permalinks';
+
+interface Link { text?: string; href?: string; ariaLabel?: string; icon?: string; }
+interface Links { title?: string; links: Array<Link>; }
+export interface Props { links: Array<Links>; secondaryLinks: Array<Link>; socialLinks: Array<Link>; footNote?: string; theme?: string; }
+
+const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme = 'light' } = Astro.props;
+---
+
+<footer class:list={[{ dark: theme === 'dark' }, 'relative border-t border-gray-200 dark:border-slate-800 not-prose']}>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6">
+    
+    <!-- Top area: Centered Links -->
+    <div class="flex justify-center py-8 md:py-12">
+      {links.map(({ title, links: primaryLinks }) => (
+        <div class="text-center">
+          <div class="dark:text-gray-300 font-medium mb-2">{title}</div>
+            <ul class="text-sm flex flex-wrap justify-center items-center" role="list">
+                {primaryLinks.map((link, index) => (
+                    <li>
+                        <a class="text-muted hover:text-gray-700 hover:underline dark:text-gray-400 transition" href={link.href}>{link.text}</a>
+                        {index < primaryLinks.length - 1 && <span class="mx-2" aria-hidden="true">·</span>}
+                    </li>
+                ))}
+            </ul>
+        </div>
+      ))}
+    </div>
+
+    <!-- Bottom area -->
+    <div class="flex flex-col-reverse items-center md:flex-row md:justify-between py-6 md:py-8 border-t border-gray-200 dark:border-slate-800">
+      
+      <!-- Left side: SaaSName + Copyright -->
+      <div class="text-sm text-muted text-center md:text-left mt-4 md:mt-0">
+        <div class="font-bold text-lg mb-1">
+          <a href={getHomePermalink()}>{SITE?.name}</a>
+        </div>
+        <div>
+          <Fragment set:html={footNote} />
+        </div>
+      </div>
+
+      <!-- Right side: Terms + Socials -->
+      <div class="flex items-center justify-center gap-x-6">
+        <!-- Terms links -->
+        <div class="text-sm text-muted">
+          {secondaryLinks.map(({ text, href }, index) => (
+            <>
+              <a class="text-muted hover:text-gray-700 dark:text-gray-400 hover:underline transition" href={href} set:html={text} />
+              {index < secondaryLinks.length - 1 && <span class="px-1">·</span>}
+            </>
+          ))}
+        </div>
+        <!-- Social links -->
+        <ul class="flex">
+          {socialLinks.map(({ ariaLabel, href, icon }) => (
+            <li>
+              <a class="flex justify-center items-center text-muted dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full w-9 h-9" aria-label={ariaLabel} href={href}>
+                <Icon name={icon} class="w-5 h-5" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
