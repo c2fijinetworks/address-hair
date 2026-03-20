@@ -1,11 +1,12 @@
 #!/bin/bash
 
-# 1. Global Branding Replace (Terms, Privacy, and all source files)
-# This replaces any stray "Schedule Hair" with "Address.Hair" across the project
-find src -type f \( -name "*.astro" -o -name "*.md" -o -name "*.ts" \) -exec sed -i 's/Schedule\.Hair/Address\.Hair/g' {} +
-find src -type f \( -name "*.astro" -o -name "*.md" -o -name "*.ts" \) -exec sed -i 's/Schedule Hair/Address.Hair/g' {} +
+# 1. Aggressive Global Search and Replace for any remaining "Schedule" strings
+# This handles the dot version, the space version, and the URL version across all source files.
+find src -type f \( -name "*.astro" -o -name "*.md" -o -name "*.ts" -o -name "*.json" \) -exec sed -i 's/schedule\.hair/address\.hair/g' {} +
+find src -type f \( -name "*.astro" -o -name "*.md" -o -name "*.ts" -o -name "*.json" \) -exec sed -i 's/Schedule\.Hair/Address\.Hair/g' {} +
+find src -type f \( -name "*.astro" -o -name "*.md" -o -name "*.ts" -o -name "*.json" \) -exec sed -i 's/Schedule Hair/Address\.Hair/g' {} +
 
-# 2. Update Navigation & Footer Specifics
+# 2. Force Overwrite Footer & Navigation for consistency
 cat << 'INNEREOF' > src/navigation.ts
 import { getPermalink } from './utils/permalinks';
 
@@ -41,7 +42,10 @@ export const footerData = {
 };
 INNEREOF
 
-# 3. Overhaul Pricing Page for Conversion
+# 3. Explicitly fix Logo component
+sed -i 's/SITE?.name/ "Address.Hair" /g' src/components/Logo.astro
+
+# 4. Fix Pricing Page FAQ (Restoring the 4th block for a complete grid)
 cat << 'INNEREOF' > src/pages/pricing.astro
 ---
 import Layout from '~/layouts/PageLayout.astro';
@@ -117,8 +121,13 @@ const metadata = {
           icon: 'tabler:world' 
         },
         { 
+          title: 'How does the "Same-Day" setup work?', 
+          description: 'Our team monitors orders in real-time. Once you secure your license, we send a brief form to grab your Instagram handle and basic details. If you complete that by 2PM EST, we guarantee your site will be live before the end of the business day.', 
+          icon: 'tabler:bolt' 
+        },
+        { 
           title: 'What if I need help after setup?', 
-          description: 'Our white-glove support doesn\'t end at launch. If you change your salon name or want to tweak your brand colors, our team is available to assist. We are your dedicated digital partners.', 
+          description: 'Our white-glove support doesn\'t end at launch. If you change your salon name, want to tweak your brand colors, or need help updating your Google profile, our team is available to assist via our support desk.', 
           icon: 'tabler:headset' 
         },
     ]}
@@ -126,14 +135,66 @@ const metadata = {
 </Layout>
 INNEREOF
 
-# 4. Final Push
+# 5. Fix Legal Pages (Contact Links)
+# Terms
+cat << 'INNEREOF' > src/pages/terms.md
+---
+layout: '~/layouts/MarkdownLayout.astro'
+title: 'Terms of Service'
+---
+
+Last updated: March 20, 2026
+
+Welcome to **Address.Hair**. By using our services, you agree to these terms. Please read them carefully.
+
+### 1. Services
+Address.Hair provides vanity URLs and salon homepage hosting services. Our lifetime deal includes setup, hosting, and social media synchronization for a one-time fee.
+
+### 2. Fees and Payments
+All payments are one-time fees as specified at the time of purchase. There are no recurring monthly subscriptions for our standard hosting and vanity URL package. Custom domain renewals (.com, .salon, etc.) are billed annually.
+
+### 3. Content
+You retain all rights to the content synced from your social media accounts. You grant Address.Hair a license to display that content on your provided vanity URL.
+
+### 4. Termination
+We reserve the right to suspend or terminate services for accounts that violate local laws or engage in fraudulent activity.
+
+### 5. Contact
+If you have any questions about these Terms, please contact us at [https://address.hair/contact](https://address.hair/contact).
+INNEREOF
+
+# Privacy
+cat << 'INNEREOF' > src/pages/privacy.md
+---
+layout: '~/layouts/MarkdownLayout.astro'
+title: 'Privacy Policy'
+---
+
+Last updated: March 20, 2026
+
+At **Address.Hair**, we value your privacy.
+
+### 1. Information We Collect
+We collect your name, email address, and salon business details when you purchase a license. We also access public Instagram data via authorized APIs to synchronize your homepage gallery.
+
+### 2. How We Use Information
+We use your information to set up your digital address, provide tech support, and notify you of system updates. We do not sell your data to third-party advertisers.
+
+### 3. Data Security
+We implement standard industry security measures to protect your account details and payment information.
+
+### 4. Contact Us
+If you have questions about your data, please visit [https://address.hair/contact](https://address.hair/contact).
+INNEREOF
+
+# 6. Final Push
 git add .
-git commit -m "Final Polish: Removed Schedule Hair from Footer/Legal, Overhauled Pricing Conversion"
+git commit -m "Fix: Final branding cleanup, fixed 4th Pricing FAQ block, and updated legal contact links"
 git push
 
 echo "----------------------------------------------------"
-echo "✅ Address.Hair BRANDING CLEANUP COMPLETE"
-echo "✅ Footer & Legal Pages Updated"
-echo "✅ Pricing Page Overhauled for Conversion"
-echo "✅ Changes Pushed to Cloudflare"
+echo "✅ Address.Hair FINAL POLISH DEPLOYED"
+echo "✅ 4 Pricing FAQs now showing"
+echo "✅ Terms & Privacy contact links fixed"
+echo "✅ Global Schedule Hair removal complete"
 echo "----------------------------------------------------"
