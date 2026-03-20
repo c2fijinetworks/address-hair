@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 1. Update Navigation
+# 1. Update Navigation & Footer
 cat << 'INNEREOF' > src/navigation.ts
 import { getPermalink } from './utils/permalinks';
 
@@ -9,7 +9,7 @@ export const headerData = {
     { text: 'Features', href: getPermalink('/#features') },
     { text: 'Process', href: getPermalink('/#process') },
     { text: 'The Story', href: getPermalink('/about') },
-    { text: 'Get Started', href: getPermalink('/pricing') },
+    { text: 'Pricing', href: getPermalink('/pricing') },
   ],
   actions: [
     { text: 'Claim Your URL', variant: 'primary', href: '/pricing' }
@@ -19,7 +19,7 @@ export const headerData = {
 export const footerData = {
   links: [
     {
-      title: 'SalonWeb',
+      title: 'Address.Hair',
       links: [
         { text: "Claim Your Site – $99", href: getPermalink('/pricing') },
         { text: 'The Story', href: getPermalink('/about') },
@@ -36,7 +36,10 @@ export const footerData = {
 };
 INNEREOF
 
-# 2. Update Pricing Data
+# 2. Update Pricing Table (Fixing the .schedule.hair -> .address.hair preview)
+sed -i 's/\.schedule\.hair/\.address\.hair/g' src/components/widgets/Pricing.astro
+
+# 3. Update Pricing Data
 cat << 'INNEREOF' > src/data/pricingData.ts
 export const lifetimeDeal = {
   title: 'Salon Homepage Plan',
@@ -56,7 +59,7 @@ export const lifetimeDeal = {
 };
 INNEREOF
 
-# 3. Update Homepage (index.astro) - FIXING ICON HERE
+# 4. Update Homepage (Expanded FAQs & Removed "Concept")
 cat << 'INNEREOF' > src/pages/index.astro
 ---
 import Layout from '~/layouts/PageLayout.astro';
@@ -79,7 +82,7 @@ const metadata = {
   <Fragment slot="header"><Header {...headerData} isSticky /></Fragment>
   
   <Hero2
-    tagline="Boutique Websites for Stylists"
+    tagline="Boutique Websites for Salons"
     title='<span class="text-accent dark:text-white">Your Salon Deserves a Digital Masterpiece.</span>'
     subtitle="We build and deploy elegant, high-converting websites that sync with your social media, so you can focus on making your clients look beautiful."
     actions={[{ variant: 'primary', text: 'Claim Your Salon\'s Website', href: '/pricing/' }, { text: 'Features', href: '#features' }]}
@@ -89,7 +92,7 @@ const metadata = {
   <Features
     id="features"
     title="Everything Your Salon Needs"
-    subtitle="Aesthetic Design: A Custom, high-end layout that mirror the luxury and vibe of your physical salon space."
+    subtitle="A Custom, high-end layout that mirrors the luxury and vibe of your physical salon space."
     items={[
         { title: 'Aesthetic Design', description: 'Custom layouts that reflect the luxury and vibe of your salon.', icon: 'tabler:palette' },
         { title: 'Automated Social Feeds', description: 'We sync your Instagram directly to your site. Fresh content, zero effort.', icon: 'tabler:brand-instagram' },
@@ -110,9 +113,9 @@ const metadata = {
   >
     <Fragment slot="content">
       <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        <span class="text-accent dark:text-white">Real-time Instagram Sync</span>
+        <span class="text-accent dark:text-white">Instant Instagram Portfolio</span>
       </h3>
-      <p>Your website shouldn't be a chore. We automatically sync your latest Instagram posts directly to your homepage.</p>
+      <p>Your website shouldn't be a chore. We automatically sync your latest Instagram posts directly to your homepage so your site is always relevant.</p>
     </Fragment>
   </Content>
 
@@ -132,17 +135,34 @@ const metadata = {
   <Pricing title='Ready to elevate your salon’s brand?' prices={[lifetimeDeal]} />
 
   <FAQs
-    title="Frequently Asked Questions"
+    title="Deep Dive: How Address.Hair Works"
     items={[
-        { title: 'What is the Address.Hair Concept?', description: 'It is a boutique web presence that focuses on vanity URLs and automated content so you never have to "update" your website again.', icon: 'tabler:help' },
-        { title: 'No technical skills required?', description: 'Correct. We handle everything. If you can print a piece of paper or post a photo, you can use this.', icon: 'tabler:tool' },
-        { title: 'Is it really same day setup?', description: 'Yes. Order by 2PM and we usually have your vanity URL live before you close.', icon: 'tabler:bolt' },
+        { 
+          title: 'What exactly is a Vanity URL vs. a Custom Domain?', 
+          description: 'A Vanity URL is a professional, branded link like <strong>address.hair/yoursalon</strong>. It is included for free and is designed to replace generic, ugly links in your Instagram bio. However, if you want your own standalone domain (e.g., <strong>yoursalon.com</strong>), we offer full registration and technical setup for just $15/year. We handle the DNS, SSL certificates, and hosting so you don’t have to touch a single line of code.', 
+          icon: 'tabler:link' 
+        },
+        { 
+          title: 'Is it really "Same-Day" Setup?', 
+          description: 'Yes. Unlike traditional agencies that take weeks, we operate as a boutique digital studio. If you submit your details by 2 PM, our team works in real-time to build your site, sync your social feeds, and deploy your URL before you close for the day. We value your time as much as you value your clients.', 
+          icon: 'tabler:bolt' 
+        },
+        { 
+          title: 'What is Address.Hair exactly?', 
+          description: 'Address.Hair is a specialized web platform for hair professionals. We provide "Digital Addresses"—high-end, mobile-optimized homepages that act as the primary front door for your business. Instead of a complex, expensive website that sits stagnant, we provide a living page that pulls in your latest work from social media and directs clients straight to your booking button.', 
+          icon: 'tabler:world' 
+        },
+        { 
+          title: 'Do I need technical skills to keep it updated?', 
+          description: 'None whatsoever. We built this for busy stylists. There is no dashboard to learn and no software to update. Your website stays fresh automatically by syncing with your Instagram. If you can take a photo of a client, you can maintain your Address.Hair website.', 
+          icon: 'tabler:tool' 
+        },
     ]}
   />
 </Layout>
 INNEREOF
 
-# 4. Update About Page
+# 5. Update About Page
 cat << 'INNEREOF' > src/pages/about.astro
 ---
 import Hero2 from '~/components/widgets/Hero2.astro';
@@ -183,96 +203,28 @@ const metadata = {
 </Layout>
 INNEREOF
 
-# 5. Update Announcement Bar
+# 6. Update Logo Text
+# Assuming SITE.name in config.yaml should be updated, but for hardcoded logo:
+sed -i 's/Schedule\.Hair/Address\.Hair/g' src/components/Logo.astro
+
+# 7. Update Announcement Bar
 cat << 'INNEREOF' > src/components/widgets/Announcement.astro
 <div class="dark text-sm bg-black hidden md:flex items-center justify-center overflow-hidden px-3 py-2 relative text-ellipsis whitespace-nowrap">
   <div class="flex items-center gap-2">
-    <span>✨ </span><span class="text-white font-medium">Claim your professional <strong>address.hair/mysalonname</strong> vanity URL today.</span>
+    <span>✨ </span><span class="text-white font-medium">Claim your professional <strong>address.hair/yoursalon</strong> vanity URL today.</span>
   </div>
   <div class="absolute right-4 top-0 h-full flex items-center"><span class="text-white font-medium">Same-day setup. Just $99</span></div>
 </div>
 INNEREOF
 
-# 6. Update Sticky Footer
-cat << 'INNEREOF' > src/components/widgets/StickyFooterCTA.astro
----
-import Button from '~/components/ui/Button.astro';
----
-<div class="sticky bottom-0 z-40 w-full flex-none">
-  <div class="bg-white dark:bg-slate-900 border-t dark:border-slate-800 shadow-t-lg">
-    <div class="max-w-7xl auto px-4 sm:px-6 py-3 flex justify-center items-center">
-      <Button
-        variant="primary"
-        text="Claim Your Salon's Website - $99"
-        href="/pricing"
-      />
-    </div>
-  </div>
-</div>
-INNEREOF
-
-# 7. Update Pricing Page
-cat << 'INNEREOF' > src/pages/pricing.astro
----
-import Layout from '~/layouts/PageLayout.astro';
-import HeroText from '~/components/widgets/HeroText.astro';
-import Pricing from '~/components/widgets/Pricing.astro';
-import FAQs from '~/components/widgets/FAQs.astro';
-import Features3 from '~/components/widgets/Features3.astro';
-import { lifetimeDeal } from '~/data/pricingData';
-
-const metadata = { title: 'Pricing | Address.Hair', description: 'One-time investment. Lifetime digital presence for your salon.' };
----
-<Layout metadata={metadata}>
-  <HeroText 
-    tagline="Invest Once. Own It Forever."
-    title="Stop Paying the 'SaaS Tax'." 
-    subtitle="No monthly fees. No maintenance. One payment of $99 secures your vanity URL and automated boutique homepage forever."
-  />
-  <Pricing prices={[lifetimeDeal]} />
-  <Features3
-    title="Everything Included"
-    columns={3}
-    items={[
-      { title: 'Vanity URL', description: 'address.hair/yoursalon', icon: 'tabler:link' },
-      { title: 'Instagram Sync', description: 'Automated updates from your feed.', icon: 'tabler:brand-instagram' },
-      { title: 'Boutique Design', description: 'Luxury layouts for salons.', icon: 'tabler:palette' },
-      { title: 'Mobile First', description: 'Lightning fast on all devices.', icon: 'tabler:device-mobile' },
-      { title: 'Booking Integration', description: 'Works with your existing tools.', icon: 'tabler:calendar' },
-      { title: 'White-Glove Setup', description: 'We do the work for you.', icon: 'tabler:headset' },
-    ]}
-  />
-</Layout>
-INNEREOF
-
-# 8. Update Contact Page
-cat << 'INNEREOF' > src/pages/contact.astro
----
-import Layout from '~/layouts/PageLayout.astro';
-import HeroText from '~/components/widgets/HeroText.astro';
-import GoogleContactForm from '~/components/widgets/GoogleContactForm.astro';
-
-const metadata = {
-  title: 'Contact | Address.Hair',
-  description: 'Reach out for white-glove setup or support.',
-};
----
-<Layout metadata={metadata}>
-  <HeroText 
-    tagline="Support"
-    title="We handle everything." 
-    subtitle="Have questions about the Address.Hair Concept? Our team is ready to help you shine online."
-  />
-  <GoogleContactForm />
-</Layout>
-INNEREOF
-
-# 9. Execution: Git Push
+# 8. Execution: Git Push
 git add .
-git commit -m "Fix: Corrected icon name and updated to Address.Hair Concept verbiage"
+git commit -m "Refactor: Final Address.Hair branding, expanded deep FAQs, removed Concept wording"
 git push
 
 echo "----------------------------------------------------"
-echo "✅ Address.Hair CONCEPT DEPLOYED & PUSHED"
-echo "✅ Icon Error Fixed (tabler:camera)"
+echo "✅ Address.Hair BRANDING DEPLOYED & PUSHED"
+echo "✅ Pricing Preview Fixed (.address.hair)"
+echo "✅ FAQ Section Expanded"
+echo "✅ Site Name Fixed (Address.Hair)"
 echo "----------------------------------------------------"

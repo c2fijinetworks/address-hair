@@ -19,7 +19,7 @@ const metadata = {
   <Fragment slot="header"><Header {...headerData} isSticky /></Fragment>
   
   <Hero2
-    tagline="Boutique Websites for Stylists"
+    tagline="Boutique Websites for Salons"
     title='<span class="text-accent dark:text-white">Your Salon Deserves a Digital Masterpiece.</span>'
     subtitle="We build and deploy elegant, high-converting websites that sync with your social media, so you can focus on making your clients look beautiful."
     actions={[{ variant: 'primary', text: 'Claim Your Salon\'s Website', href: '/pricing/' }, { text: 'Features', href: '#features' }]}
@@ -29,7 +29,7 @@ const metadata = {
   <Features
     id="features"
     title="Everything Your Salon Needs"
-    subtitle="Aesthetic Design: A Custom, high-end layout that mirror the luxury and vibe of your physical salon space."
+    subtitle="A Custom, high-end layout that mirrors the luxury and vibe of your physical salon space."
     items={[
         { title: 'Aesthetic Design', description: 'Custom layouts that reflect the luxury and vibe of your salon.', icon: 'tabler:palette' },
         { title: 'Automated Social Feeds', description: 'We sync your Instagram directly to your site. Fresh content, zero effort.', icon: 'tabler:brand-instagram' },
@@ -50,9 +50,9 @@ const metadata = {
   >
     <Fragment slot="content">
       <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
-        <span class="text-accent dark:text-white">Real-time Instagram Sync</span>
+        <span class="text-accent dark:text-white">Instant Instagram Portfolio</span>
       </h3>
-      <p>Your website shouldn't be a chore. We automatically sync your latest Instagram posts directly to your homepage.</p>
+      <p>Your website shouldn't be a chore. We automatically sync your latest Instagram posts directly to your homepage so your site is always relevant.</p>
     </Fragment>
   </Content>
 
@@ -72,11 +72,28 @@ const metadata = {
   <Pricing title='Ready to elevate your salon’s brand?' prices={[lifetimeDeal]} />
 
   <FAQs
-    title="Frequently Asked Questions"
+    title="Deep Dive: How Address.Hair Works"
     items={[
-        { title: 'What is the Address.Hair Concept?', description: 'It is a boutique web presence that focuses on vanity URLs and automated content so you never have to "update" your website again.', icon: 'tabler:help' },
-        { title: 'No technical skills required?', description: 'Correct. We handle everything. If you can print a piece of paper or post a photo, you can use this.', icon: 'tabler:tool' },
-        { title: 'Is it really same day setup?', description: 'Yes. Order by 2PM and we usually have your vanity URL live before you close.', icon: 'tabler:bolt' },
+        { 
+          title: 'What exactly is a Vanity URL vs. a Custom Domain?', 
+          description: 'A Vanity URL is a professional, branded link like <strong>address.hair/yoursalon</strong>. It is included for free and is designed to replace generic, ugly links in your Instagram bio. However, if you want your own standalone domain (e.g., <strong>yoursalon.com</strong>), we offer full registration and technical setup for just $15/year. We handle the DNS, SSL certificates, and hosting so you don’t have to touch a single line of code.', 
+          icon: 'tabler:link' 
+        },
+        { 
+          title: 'Is it really "Same-Day" Setup?', 
+          description: 'Yes. Unlike traditional agencies that take weeks, we operate as a boutique digital studio. If you submit your details by 2 PM, our team works in real-time to build your site, sync your social feeds, and deploy your URL before you close for the day. We value your time as much as you value your clients.', 
+          icon: 'tabler:bolt' 
+        },
+        { 
+          title: 'What is Address.Hair exactly?', 
+          description: 'Address.Hair is a specialized web platform for hair professionals. We provide "Digital Addresses"—high-end, mobile-optimized homepages that act as the primary front door for your business. Instead of a complex, expensive website that sits stagnant, we provide a living page that pulls in your latest work from social media and directs clients straight to your booking button.', 
+          icon: 'tabler:world' 
+        },
+        { 
+          title: 'Do I need technical skills to keep it updated?', 
+          description: 'None whatsoever. We built this for busy stylists. There is no dashboard to learn and no software to update. Your website stays fresh automatically by syncing with your Instagram. If you can take a photo of a client, you can maintain your Address.Hair website.', 
+          icon: 'tabler:tool' 
+        },
     ]}
   />
 </Layout>

@@ -5,7 +5,7 @@ export const headerData = {
     { text: 'Features', href: getPermalink('/#features') },
     { text: 'Process', href: getPermalink('/#process') },
     { text: 'The Story', href: getPermalink('/about') },
-    { text: 'Get Started', href: getPermalink('/pricing') },
+    { text: 'Pricing', href: getPermalink('/pricing') },
   ],
   actions: [
     { text: 'Claim Your URL', variant: 'primary', href: '/pricing' }
@@ -15,7 +15,7 @@ export const headerData = {
 export const footerData = {
   links: [
     {
-      title: 'SalonWeb',
+      title: 'Address.Hair',
       links: [
         { text: "Claim Your Site – $99", href: getPermalink('/pricing') },
         { text: 'The Story', href: getPermalink('/about') },
