@@ -16,51 +16,58 @@ const metadata = {
 };
 ---
 <Layout metadata={metadata}>
-  <Fragment slot="header"><Header {...headerData} isSticky /></Fragment>
+  <Fragment slot="header">
+    <Header {...headerData} isSticky />
+  </Fragment>
   
   <Hero2
     tagline="Boutique Web Development for Salons"
     title='<span class="text-accent dark:text-white">Your Salon Deserves a Digital Masterpiece.</span>'
     subtitle="We build and deploy elegant, high-converting websites that sync with your social media portfolio in real-time. Stand out with a professional address while you focus on the chair."
-    actions={[{ variant: 'primary', text: 'Claim Your Salon\'s Website', href: '/pricing/' }, { text: 'Features', href: '#features' }]}
+    actions={[
+      { variant: 'primary', text: "Claim Your Salon's Website", href: '/pricing/' }, 
+      { text: 'Features', href: '#features' }
+    ]}
     image={{ src: '/images/hero-poster.webp', width: 1024, height: 576 }}
   />
 
   <Features
+    class="-mt-16"
     id="features"
     title="Everything Your Salon Needs"
     subtitle="We have distilled the essential elements of a high-performance salon website into a single, beautiful package."
     items={[
         { 
           title: 'Aesthetic Boutique Design', 
-          description: 'This is not a generic template. Our layouts are custom-crafted to mirror the luxury, lighting, and unique vibe of your physical salon space. We prioritize high-resolution imagery and elegant typography that tells your brand story before the client even walks through the door. Every pixel is designed to build trust and signal elite-level service.', 
+          description: 'Our layouts are custom-crafted to mirror the luxury of your physical salon space. We prioritize high-resolution imagery and elegant typography that tells your brand story.', 
           icon: 'tabler:palette' 
         },
         { 
           title: 'Automated Social Feeds', 
-          description: 'Your website should never be out of date. We sync your Instagram directly to your homepage gallery, creating a living, breathing portfolio. Every time you post a fresh transformation or a new style, your website updates automatically. This ensures your site stays as fresh as your latest client blow-out with absolutely zero manual effort on your part.', 
+          description: 'We sync your Instagram directly to your homepage gallery. Every time you post a fresh transformation, your website updates automatically. Zero manual effort.', 
           icon: 'tabler:brand-instagram' 
         },
         { 
           title: 'Essential Business Strategy', 
-          description: 'We integrate your primary booking engine directly into a clear, high-conversion layout. Beyond just a link, we include interactive location maps and up-to-date hours designed specifically for mobile users. We optimize the path from search to scheduled appointment, ensuring that local clients can find you and book you with a single tap.', 
+          description: 'We integrate your booking engine directly into a clear layout, including interactive maps and up-to-date hours optimized specifically for mobile users.', 
           icon: 'tabler:info-circle' 
         },
         { 
           title: 'Professional Technical Suite', 
-          description: 'Stop worrying about servers or security. We handle the enterprise-grade tech behind your professional address. Our websites are hosted on lightning-fast global networks, ensuring your high-res portfolio loads instantly on any device. We provide SSL security and custom domain routing so your digital home is as stable and professional as your salon business.', 
+          description: 'We handle the enterprise-grade tech. Hosted on lightning-fast global networks with SSL security and custom domain routing for total stability.', 
           icon: 'tabler:cloud-computing' 
         },
     ]}
   />
 
   <Content
-    isReversed={false}
+    class="-mt-16"
     tagline="Always Fresh. Zero Maintenance."
     title="Your site stays as fresh as your latest client's blowout."
     items={[
         { title: 'Real-time Instagram Sync', description: 'Your portfolio updates automatically every time you post a new transformation.', icon: 'tabler:refresh' },
         { title: 'Automatic Content Refresh', description: 'No more outdated websites. Your latest work is always front and center.', icon: 'tabler:camera' },
+        { title: 'SEO Authority Signal', description: 'Google prioritizes dedicated professional URLs over generic social links.', icon: 'tabler:trending-up' },
     ]}
     image={{ src: '/images/testimonial-2.webp', alt: 'Stylist working on a client' }}
   >
@@ -68,49 +75,39 @@ const metadata = {
       <h3 class="text-2xl font-bold tracking-tight dark:text-white sm:text-3xl mb-2">
         <span class="text-accent dark:text-white">Instant Instagram Portfolio</span>
       </h3>
-      <p>Your website shouldn't be a chore. We automatically sync your latest Instagram posts directly to your homepage so your site is always relevant and reflects your current skill level.</p>
+      <p>Your website shouldn't be a chore. We automatically sync your latest posts directly to your homepage so your site reflects your current skill level 24/7.</p>
     </Fragment>
+    <Fragment slot="bg"><div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div></Fragment>
   </Content>
 
   <div id="process" class="scroll-mt-20">
     <Steps2
-      isReversed={true}
       title="The Path to a Better Presence"
       subtitle="Three simple steps to your new digital home."
       items={[
-        { title: '01. Sign up with your salon\'s brand', description: 'Secure your brand and choose your vanity URL.', icon: 'tabler:number-1' },
-        { title: '02. We Build & Sync immediately', description: 'Our studio crafts your site and connects your social feeds for auto-updates.', icon: 'tabler:number-2' },
-        { title: '03. Launch & Shine', description: 'Go live on address.hair/mysalonname and start attracting high-value clients.', icon: 'tabler:number-3' },
+        { title: '01. Sign up with your brand', description: 'Secure your license and choose your vanity URL.', icon: 'tabler:number-1' },
+        { title: '02. We Build & Sync', description: 'Our studio crafts your site and connects your social feeds for auto-updates.', icon: 'tabler:number-2' },
+        { title: '03. Launch & Shine', description: 'Go live on address.hair/mysalon and start attracting high-value clients.', icon: 'tabler:number-3' },
       ]}
       image={{ src: '/images/testimonial-6.webp', alt: 'Address Hair process' }}
     />
   </div>
 
-  <Pricing title='Ready to elevate your salon’s brand?' prices={[lifetimeDeal]} />
+  <Pricing 
+    title='<span class="text-accent dark:text-white">Ready to elevate your salon’s brand?</span>' 
+    prices={[lifetimeDeal]} 
+  />
 
   <FAQs
+    class="-mt-16 px-6"
     title="Deep Dive: How Address.Hair Works"
     items={[
-        { 
-          title: 'What exactly is a Vanity URL vs. a Custom Domain?', 
-          description: 'A Vanity URL is a professional, branded link like <strong>address.hair/yoursalon</strong>. It is included for free and is designed to replace generic, ugly links in your Instagram bio. However, if you want your own standalone domain (e.g., <strong>yoursalon.com</strong>), we offer full registration and technical setup for just $15/year. We handle the DNS, SSL certificates, and hosting so you don’t have to touch a single line of code.', 
-          icon: 'tabler:link' 
-        },
-        { 
-          title: 'Is it really "Same-Day" Setup?', 
-          description: 'Yes. Unlike traditional agencies that take weeks, we operate as a boutique digital studio. If you submit your details by 2 PM, our team works in real-time to build your site, sync your social feeds, and deploy your URL before you close for the day. We value your time as much as you value your clients.', 
-          icon: 'tabler:bolt' 
-        },
-        { 
-          title: 'What is Address.Hair exactly?', 
-          description: 'Address.Hair is the definitive digital presence for elite stylists. Beyond being a beautiful homepage, it serves as a powerful SEO asset. By adding your Address.Hair link as the official "Website" on your Google Business Profile, you create a massive authority signal. Google prioritizes professional, dedicated URLs over generic social links or messy booking IDs. This makes your salon stand out in local search and helps you outrank the competition.', 
-          icon: 'tabler:world' 
-        },
-        { 
-          title: 'Do I need technical skills to keep it updated?', 
-          description: 'None whatsoever. We built this for busy stylists. There is no dashboard to learn and no software to update. Your website stays fresh automatically by syncing with your Instagram. If you can take a photo of a client, you can maintain your Address.Hair website.', 
-          icon: 'tabler:tool' 
-        },
+        { title: 'What is a Vanity URL?', description: 'A branded link like <strong>address.hair/yoursalon</strong>. It replaces messy links in your bio with a professional presence.', icon: 'tabler:link' },
+        { title: 'Is it really "Same-Day"?', description: 'Yes. If you submit your details by 2 PM, our team builds and deploys your site before you close for the day.', icon: 'tabler:bolt' },
+        { title: 'Is this a subscription?', description: 'No. Address.Hair is a one-time investment. We charge for setup and hosting once. You own it for life.', icon: 'tabler:coin' },
+        { title: 'Do I need tech skills?', description: 'None. Your site stays fresh by syncing with your Instagram. If you can post a photo, you can maintain your site.', icon: 'tabler:tool' },
     ]}
-  />
+  >
+     <Fragment slot="bg"><div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div></Fragment>
+  </FAQs>
 </Layout>

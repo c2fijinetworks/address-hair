@@ -5,6 +5,7 @@ import Pricing from '~/components/widgets/Pricing.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import Features3 from '~/components/widgets/Features3.astro';
 import { lifetimeDeal } from '~/data/pricingData';
+import Hero from '~/components/widgets/Hero.astro';
 
 const metadata = { 
   title: 'Pricing | Secure Your Elite Address.Hair URL', 
@@ -15,72 +16,54 @@ const metadata = {
   <HeroText 
     tagline="The Professional Standard"
     title="A Stunning Home for Your Artistry. Live in Hours." 
-    subtitle="More than just a link—it's your salon's digital flagship. Own a beautiful vanity URL (address.hair/yoursalon) that transforms your social bio and Google 'Website' button into a high-end experience. Present your services in detail, showcase your live Instagram feed automatically, and turn casual scrollers into loyal clients with a professionally managed web presence."
+    subtitle="More than just a link—it's your salon's digital flagship. Own a beautiful vanity URL (address.hair/yoursalon) that transforms your social bio into a high-end experience."
   />
 
-  <Pricing prices={[lifetimeDeal]} />
+  <div class="-mt-16">
+    <Pricing prices={[lifetimeDeal]} />
+  </div>
 
   <Features3
     title="Elevate Every Touchpoint"
-    subtitle="We bridge the gap between your hard work behind the chair and your presence online."
+    subtitle="We bridge the gap between your work behind the chair and your presence online."
     columns={3}
     items={[
       { 
         title: 'Social Bio Transformation', 
-        description: 'Ditch the generic link-in-bio tools. Your Address.Hair URL provides a high-end, branded experience that keeps clients focused on your work, your services, and your booking link.', 
+        description: 'Ditch generic link tools. Your URL provides a high-end experience that keeps clients focused on your services and booking link.', 
         icon: 'tabler:link' 
       },
       { 
         title: 'Google Business Authority', 
-        description: 'The "Website" button on your Google Profile is your most valuable real estate. Replace generic links with a dedicated salon homepage that creates a massive authority signal to local clients.', 
+        description: 'Replace generic links on your Google Profile with a dedicated salon homepage that creates a massive authority signal to local clients.', 
         icon: 'tabler:brand-google' 
       },
       { 
-        title: 'Detailed Service Presentation', 
-        description: 'Standard apps hide your brilliance. We present your service menu with boutique styling, allowing you to detail your specialty color work, extensions, and styling packages beautifully.', 
-        icon: 'tabler:clipboard-list' 
-      },
-      { 
         title: 'Live Portfolio Sync', 
-        description: 'Your best work happens daily. We pull your live Instagram feed directly onto your unique URL, ensuring your website portfolio is always current and vibrant without you lifting a finger.', 
+        description: 'We pull your live Instagram feed directly onto your unique URL, ensuring your portfolio is always current without you lifting a finger.', 
         icon: 'tabler:brand-instagram' 
       },
-      { 
-        title: 'One-Time License', 
-        description: 'No monthly subscriptions or "SaaS Taxes." Pay once and own your professional identity for life. We handle the hosting, security, and updates so you can focus on your clients.', 
-        icon: 'tabler:coin' 
-      },
-      { 
-        title: 'White-Glove Delivery', 
-        description: 'We are your dedicated digital partners. From setting up your vanity URL to styling your page and syncing your feeds, we handle the technical heavy lifting with same-day delivery.', 
-        icon: 'tabler:headset' 
-      },
+      { title: 'Detailed Menu Styling', description: 'Present your service menu with boutique styling, detailing your color work and extensions beautifully.', icon: 'tabler:clipboard-list' },
+      { title: 'One-Time License', description: 'No monthly SaaS Taxes. Pay once and own your professional identity for life. We handle the hosting and security.', icon: 'tabler:coin' },
+      { title: 'White-Glove Delivery', description: 'From setup to feed syncing, we handle the technical heavy lifting with guaranteed same-day delivery.', icon: 'tabler:headset' },
     ]}
   />
 
   <FAQs
+    class="-mt-16 px-6"
     title="Pricing & Setup Questions"
     items={[
-        { 
-          title: 'How does the "Same-Day" setup work?', 
-          description: 'Once you secure your license, we send a brief form to grab your Instagram handle and service details. If you complete that by 2PM EST, we guarantee your elite digital address will be live before the end of the business day.', 
-          icon: 'tabler:bolt' 
-        },
-        { 
-          title: 'Can I use my own .com domain?', 
-          description: 'Yes. While the free Address.Hair vanity URL is included, we can fully set up and manage your own custom .com or .salon domain for just $15/year. We handle all the DNS pointing and SSL security for you.', 
-          icon: 'tabler:world' 
-        },
-        { 
-          title: 'Is this a monthly subscription?', 
-          description: 'No. Address.Hair is a one-time investment. We charge for the setup, boutique design, and permanent hosting. Once your site is live, you never pay us a monthly fee again.', 
-          icon: 'tabler:coin' 
-        },
-        { 
-          title: 'What happens if my services change?', 
-          description: 'Our support team is here for you. Simply send us your updated menu or brand colors, and we apply the changes as part of your lifetime white-glove support package.', 
-          icon: 'tabler:settings' 
-        },
+        { title: 'How does same-day setup work?', description: 'Secure your license, fill out our brief content form, and if received by 2PM EST, your site goes live before the business day ends.', icon: 'tabler:bolt' },
+        { title: 'Can I use a custom .com?', description: 'Yes! We can manage your own standalone domain (yoursalon.com) for just $15/year, handling all DNS and SSL setup for you.', icon: 'tabler:world' },
+        { title: 'Is this a monthly fee?', description: 'No. Address.Hair is a one-time investment for setup and boutique design. You never pay a monthly fee again.', icon: 'tabler:coin' },
     ]}
-  />
+  >
+    <Fragment slot="bg"><div class="absolute inset-0 bg-blue-50 dark:bg-transparent"></div></Fragment>
+  </FAQs>
+
+  <Hero class="-mt-16">
+    <Fragment slot="image">
+      <img src="/images/testimonial-5.webp" alt="Stylist reviewing feedback" class="mx-auto rounded-md w-full shadow-lg" loading="lazy" />
+    </Fragment>
+  </Hero>
 </Layout>
