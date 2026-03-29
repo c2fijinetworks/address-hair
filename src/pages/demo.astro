@@ -1,0 +1,563 @@
+---
+// Standalone Demo Page
+// Bypasses the main layout to preserve exact custom Tailwind/CSS provided
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumière Studio - Luxury Salon Demo | Address.Hair</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS v4 via Browser Script -->
+  <script is:inline src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+  <!-- Lucide Icons -->
+  <script is:inline src="https://unpkg.com/lucide@latest"></script>
+
+  <style type="text/tailwindcss" is:inline>
+    @theme {
+      --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+      --font-serif: "Playfair Display", serif;
+      
+      --color-primary: #1a1a1a;
+      --color-accent: #C5A059;
+      --color-bg: #FAF9F6;
+    }
+
+    @layer base {
+      body {
+        @apply bg-bg text-primary font-sans antialiased selection:bg-accent/30;
+      }
+      h1, h2, h3, h4, h5, h6 {
+        @apply font-serif;
+      }
+    }
+  </style>
+
+  <style is:inline>
+    /* Custom scrollbar for horizontal reviews */
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Animations replacing Framer Motion */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .animate-fade-up-1 { animation: fadeInUp 0.8s ease-out 0.2s both; }
+    .animate-fade-up-2 { animation: fadeInUp 0.8s ease-out 0.4s both; }
+    .animate-fade-up-3 { animation: fadeInUp 0.8s ease-out 0.8s both; }
+    
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(100px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-slide-up { animation: slideInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 2s both; }
+
+    /* Mobile Menu Transitions */
+    #mobile-menu {
+      transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+      transform: translateX(100%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    #mobile-menu.open {
+      transform: translateX(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 bg-transparent py-8">
+    <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+      <div class="flex items-center gap-2">
+        <span class="text-2xl font-serif tracking-widest uppercase font-medium">Lumière</span>
+        <span class="text-[10px] tracking-[0.3em] uppercase opacity-60 mt-1">Studio</span>
+      </div>
+      
+      <div class="hidden md:flex items-center gap-12 text-xs uppercase tracking-[0.2em] font-medium">
+        <a href="#about" class="hover:text-accent transition-colors">About</a>
+        <a href="#services" class="hover:text-accent transition-colors">Services</a>
+        <a href="#gallery" class="hover:text-accent transition-colors">Gallery</a>
+        <a href="#reviews" class="hover:text-accent transition-colors">Reviews</a>
+        <button class="bg-primary text-bg px-8 py-3 hover:bg-accent transition-all duration-300">Book Now</button>
+      </div>
+
+      <button id="menu-btn" class="md:hidden cursor-pointer">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="fixed inset-0 z-[60] bg-bg flex flex-col p-8">
+    <div class="flex justify-end">
+      <button id="close-menu-btn" class="cursor-pointer">
+        <i data-lucide="x" class="w-8 h-8"></i>
+      </button>
+    </div>
+    <div class="flex flex-col gap-8 mt-12 text-2xl font-serif">
+      <a href="#about" class="mobile-link">About</a>
+      <a href="#services" class="mobile-link">Services</a>
+      <a href="#gallery" class="mobile-link">Gallery</a>
+      <a href="#reviews" class="mobile-link">Reviews</a>
+      <button class="bg-primary text-bg py-4 mt-4">Book Now</button>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="relative h-screen flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img 
+        src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1920" 
+        alt="Luxury Salon Interior" 
+        class="w-full h-full object-cover scale-105 transition-transform duration-[20s] ease-linear hover:scale-110"
+      />
+      <div class="absolute inset-0 bg-black/40"></div>
+    </div>
+    
+    <div class="relative z-10 text-center text-bg px-6 max-w-4xl">
+      <span class="animate-fade-up-1 text-xs uppercase tracking-[0.5em] mb-6 block font-medium">
+        Est. 2024 — Beverly Hills
+      </span>
+      <h1 class="animate-fade-up-2 text-5xl md:text-8xl font-serif mb-8 leading-[1.1]">
+        Your Transformation <br /> <span class="italic">Begins Here.</span>
+      </h1>
+      <div class="animate-fade-up-3 flex flex-col md:flex-row items-center justify-center gap-6">
+        <button class="bg-accent text-bg px-10 py-4 text-xs uppercase tracking-widest hover:bg-bg hover:text-primary transition-all duration-500 w-full md:w-auto cursor-pointer">
+          Explore Services
+        </button>
+        <button class="border border-bg/30 backdrop-blur-sm text-bg px-10 py-4 text-xs uppercase tracking-widest hover:bg-bg/10 transition-all duration-500 w-full md:w-auto cursor-pointer">
+          Meet The Team
+        </button>
+      </div>
+    </div>
+
+    <div class="absolute bottom-12 left-1/2 -translate-x-1/2 animate-bounce opacity-50">
+      <div class="w-[1px] h-12 bg-bg"></div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-24 md:py-40 px-6">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <div class="relative">
+        <div class="aspect-[4/5] overflow-hidden">
+          <img 
+            src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&q=80&w=800" 
+            alt="Stylist at work" 
+            class="w-full h-full object-cover"
+          />
+        </div>
+        <div class="absolute -bottom-8 -right-8 w-64 h-80 hidden md:block border-8 border-bg z-10">
+           <img 
+            src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&q=80&w=400" 
+            alt="Detail" 
+            class="w-full h-full object-cover"
+          />
+        </div>
+      </div>
+      <div class="space-y-8">
+        <span class="text-accent text-xs uppercase tracking-[0.3em] font-semibold">The Art of Hair</span>
+        <h2 class="text-4xl md:text-6xl font-serif leading-tight">Where Luxury <br />Meets Artistry.</h2>
+        <p class="text-primary/70 leading-relaxed text-lg max-w-xl">
+          At Lumière Studio, we believe hair is the ultimate canvas. Our philosophy blends timeless elegance with modern innovation, creating bespoke looks that reflect your unique essence. 
+        </p>
+        <p class="text-primary/70 leading-relaxed text-lg max-w-xl">
+          From the moment you step into our minimalist sanctuary, every detail is curated for your comfort and transformation. We don't just style hair; we craft confidence.
+        </p>
+        <div class="pt-4">
+          <a href="#" class="inline-flex items-center gap-4 group text-xs uppercase tracking-widest font-bold">
+            Discover our story
+            <div class="w-12 h-[1px] bg-primary group-hover:w-20 transition-all duration-500"></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Gallery (Insta-Sync Demo) -->
+  <section id="gallery" class="bg-primary text-bg py-24 md:py-32 px-6 overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 bg-accent/20 text-accent px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold border border-accent/30">
+              <span class="w-1.5 h-1.5 bg-accent rounded-full animate-pulse"></span>
+              Syncing Live
+            </div>
+            <span class="text-xs uppercase tracking-widest opacity-60">Insta-Sync™ Technology</span>
+          </div>
+          <h2 class="text-4xl md:text-6xl font-serif">Daily Inspirations.</h2>
+        </div>
+        <div class="flex items-center gap-4 text-xs uppercase tracking-widest opacity-80 hover:opacity-100 transition-opacity cursor-pointer">
+          <i data-lucide="instagram" class="w-5 h-5"></i>
+          Follow @lumiere.studio
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8">
+        <!-- Gallery Images -->
+        <div class="group relative aspect-square overflow-hidden cursor-pointer transition-transform hover:-translate-y-2 duration-300">
+          <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&q=80&w=600&h=600" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+            <i data-lucide="instagram" class="text-bg w-8 h-8 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-50 group-hover:scale-100"></i>
+          </div>
+        </div>
+        <div class="group relative aspect-square overflow-hidden cursor-pointer transition-transform hover:-translate-y-2 duration-300">
+          <img src="https://images.unsplash.com/photo-1522336572018-3b8f1e389389?auto=format&fit=crop&q=80&w=600&h=600" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+            <i data-lucide="instagram" class="text-bg w-8 h-8 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-50 group-hover:scale-100"></i>
+          </div>
+        </div>
+        <div class="group relative aspect-square overflow-hidden cursor-pointer transition-transform hover:-translate-y-2 duration-300">
+          <img src="https://images.unsplash.com/photo-1595476108010-b4d1f80d91f2?auto=format&fit=crop&q=80&w=600&h=600" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+            <i data-lucide="instagram" class="text-bg w-8 h-8 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-50 group-hover:scale-100"></i>
+          </div>
+        </div>
+        <div class="group relative aspect-square overflow-hidden cursor-pointer transition-transform hover:-translate-y-2 duration-300">
+          <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&q=80&w=600&h=600" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+            <i data-lucide="instagram" class="text-bg w-8 h-8 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-50 group-hover:scale-100"></i>
+          </div>
+        </div>
+        <div class="group relative aspect-square overflow-hidden cursor-pointer transition-transform hover:-translate-y-2 duration-300">
+          <img src="https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?auto=format&fit=crop&q=80&w=600&h=600" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+            <i data-lucide="instagram" class="text-bg w-8 h-8 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-50 group-hover:scale-100"></i>
+          </div>
+        </div>
+        <div class="group relative aspect-square overflow-hidden cursor-pointer transition-transform hover:-translate-y-2 duration-300">
+          <img src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&q=80&w=600&h=600" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
+          <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+            <i data-lucide="instagram" class="text-bg w-8 h-8 opacity-0 group-hover:opacity-100 transition-all duration-500 scale-50 group-hover:scale-100"></i>
+          </div>
+        </div>
+      </div>
+      
+      <div class="mt-16 text-center">
+        <p class="text-bg/40 text-[10px] uppercase tracking-[0.4em]">Powered by Address.Hair Live Feed Engine</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team Section -->
+  <section class="py-24 md:py-32 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-20 space-y-4">
+        <span class="text-accent text-xs uppercase tracking-[0.3em] font-semibold">The Visionaries</span>
+        <h2 class="text-4xl md:text-6xl font-serif">Master Stylists</h2>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-12">
+        <div class="group cursor-pointer">
+          <div class="aspect-[4/5] overflow-hidden mb-6 relative">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=400&h=500" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
+            <div class="absolute inset-0 border-[1px] border-accent/0 group-hover:border-accent/30 transition-all duration-500 m-4"></div>
+          </div>
+          <h3 class="text-2xl font-serif mb-1">Julian Vance</h3>
+          <p class="text-accent text-xs uppercase tracking-widest font-medium">Creative Director</p>
+        </div>
+        <div class="group cursor-pointer">
+          <div class="aspect-[4/5] overflow-hidden mb-6 relative">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=400&h=500" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
+            <div class="absolute inset-0 border-[1px] border-accent/0 group-hover:border-accent/30 transition-all duration-500 m-4"></div>
+          </div>
+          <h3 class="text-2xl font-serif mb-1">Amara Saint</h3>
+          <p class="text-accent text-xs uppercase tracking-widest font-medium">Master Colorist</p>
+        </div>
+        <div class="group cursor-pointer">
+          <div class="aspect-[4/5] overflow-hidden mb-6 relative">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=400&h=500" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
+            <div class="absolute inset-0 border-[1px] border-accent/0 group-hover:border-accent/30 transition-all duration-500 m-4"></div>
+          </div>
+          <h3 class="text-2xl font-serif mb-1">Leo D'Amico</h3>
+          <p class="text-accent text-xs uppercase tracking-widest font-medium">Style Specialist</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Review Engine (Google Feed Demo) -->
+  <section id="reviews" class="bg-bg py-24 md:py-32 border-y border-primary/5">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between items-center mb-16 gap-6">
+        <div class="flex items-center gap-4">
+          <div class="bg-white p-3 shadow-sm border border-primary/5">
+            <img src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24dp.svg" alt="Google" class="h-6" />
+          </div>
+          <div>
+            <div class="flex items-center gap-1 mb-1">
+              <i data-lucide="star" class="w-3 h-3 fill-accent text-accent"></i>
+              <i data-lucide="star" class="w-3 h-3 fill-accent text-accent"></i>
+              <i data-lucide="star" class="w-3 h-3 fill-accent text-accent"></i>
+              <i data-lucide="star" class="w-3 h-3 fill-accent text-accent"></i>
+              <i data-lucide="star" class="w-3 h-3 fill-accent text-accent"></i>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold uppercase tracking-widest">Verified Google Business</span>
+              <i data-lucide="check-circle-2" class="w-3 h-3 text-blue-500"></i>
+            </div>
+          </div>
+        </div>
+        <div class="text-center md:text-right">
+          <span class="text-4xl font-serif">4.9</span>
+          <span class="text-xs uppercase tracking-widest opacity-60 ml-2">Average Rating (120+ Reviews)</span>
+        </div>
+      </div>
+
+      <div class="flex gap-6 overflow-x-auto hide-scrollbar pb-8 snap-x">
+        <div class="min-w-[300px] md:min-w-[400px] bg-white p-10 border border-primary/5 snap-start shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex items-center gap-1 mb-6">
+            <i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i>
+          </div>
+          <p class="text-primary/80 italic mb-8 leading-relaxed">"The most luxurious salon experience I've ever had. The attention to detail is unmatched."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-[10px] font-bold text-accent">E</div>
+            <span class="text-xs uppercase tracking-widest font-bold">Elena Rodriguez</span>
+          </div>
+        </div>
+        <div class="min-w-[300px] md:min-w-[400px] bg-white p-10 border border-primary/5 snap-start shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex items-center gap-1 mb-6">
+            <i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i>
+          </div>
+          <p class="text-primary/80 italic mb-8 leading-relaxed">"Lumière Studio transformed my look. The stylists are true artists."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-[10px] font-bold text-accent">J</div>
+            <span class="text-xs uppercase tracking-widest font-bold">James Wilson</span>
+          </div>
+        </div>
+        <div class="min-w-[300px] md:min-w-[400px] bg-white p-10 border border-primary/5 snap-start shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex items-center gap-1 mb-6">
+            <i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i>
+          </div>
+          <p class="text-primary/80 italic mb-8 leading-relaxed">"I love the minimalist vibe. It's so calming, and my hair has never looked better."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-[10px] font-bold text-accent">S</div>
+            <span class="text-xs uppercase tracking-widest font-bold">Sophia Chen</span>
+          </div>
+        </div>
+        <div class="min-w-[300px] md:min-w-[400px] bg-white p-10 border border-primary/5 snap-start shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex items-center gap-1 mb-6">
+            <i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i><i data-lucide="star" class="w-4 h-4 fill-accent text-accent"></i>
+          </div>
+          <p class="text-primary/80 italic mb-8 leading-relaxed">"Finally found a salon that understands high-end color. Simply perfect."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center text-[10px] font-bold text-accent">I</div>
+            <span class="text-xs uppercase tracking-widest font-bold">Isabella Rossi</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Menu -->
+  <section id="services" class="py-24 md:py-40 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-20 space-y-4">
+        <span class="text-accent text-xs uppercase tracking-[0.3em] font-semibold">The Menu</span>
+        <h2 class="text-4xl md:text-6xl font-serif">Boutique Services</h2>
+      </div>
+      
+      <div class="space-y-12">
+        <div class="group flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-primary/10 pb-8 hover:border-accent transition-colors duration-500">
+          <div class="space-y-2">
+            <h3 class="text-2xl font-serif group-hover:text-accent transition-colors">Signature Cut & Style</h3>
+            <p class="text-primary/60 text-sm max-w-md">Precision cutting tailored to your face shape and hair texture.</p>
+          </div>
+          <span class="text-accent font-serif text-xl md:text-2xl">from $120</span>
+        </div>
+        <div class="group flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-primary/10 pb-8 hover:border-accent transition-colors duration-500">
+          <div class="space-y-2">
+            <h3 class="text-2xl font-serif group-hover:text-accent transition-colors">Bespoke Balayage</h3>
+            <p class="text-primary/60 text-sm max-w-md">Hand-painted highlights for a natural, sun-kissed transformation.</p>
+          </div>
+          <span class="text-accent font-serif text-xl md:text-2xl">from $280</span>
+        </div>
+        <div class="group flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-primary/10 pb-8 hover:border-accent transition-colors duration-500">
+          <div class="space-y-2">
+            <h3 class="text-2xl font-serif group-hover:text-accent transition-colors">Lumière Gloss Treatment</h3>
+            <p class="text-primary/60 text-sm max-w-md">High-shine semi-permanent color to refresh and revitalize.</p>
+          </div>
+          <span class="text-accent font-serif text-xl md:text-2xl">$85</span>
+        </div>
+        <div class="group flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-primary/10 pb-8 hover:border-accent transition-colors duration-500">
+          <div class="space-y-2">
+            <h3 class="text-2xl font-serif group-hover:text-accent transition-colors">Luxury Extensions</h3>
+            <p class="text-primary/60 text-sm max-w-md">Premium ethically sourced hair for volume and length.</p>
+          </div>
+          <span class="text-accent font-serif text-xl md:text-2xl">Consultation</span>
+        </div>
+        <div class="group flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-primary/10 pb-8 hover:border-accent transition-colors duration-500">
+          <div class="space-y-2">
+            <h3 class="text-2xl font-serif group-hover:text-accent transition-colors">Bridal Artistry</h3>
+            <p class="text-primary/60 text-sm max-w-md">Exquisite styling for your most memorable moments.</p>
+          </div>
+          <span class="text-accent font-serif text-xl md:text-2xl">from $250</span>
+        </div>
+      </div>
+      
+      <div class="mt-20 text-center">
+        <button class="bg-primary text-bg px-12 py-5 text-xs uppercase tracking-widest hover:bg-accent transition-all duration-500 cursor-pointer">
+          View Full Menu
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Address.Hair Conversion Section -->
+  <section class="bg-accent text-bg py-24 px-6 relative overflow-hidden">
+    <div class="absolute top-0 right-0 opacity-10 translate-x-1/4 -translate-y-1/4 pointer-events-none">
+      <span class="text-[20rem] font-serif italic">L</span>
+    </div>
+    <div class="max-w-7xl mx-auto relative z-10 grid md:grid-cols-2 gap-16 items-center">
+      <div class="space-y-8">
+        <div class="inline-block bg-bg/20 backdrop-blur-md px-4 py-2 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold border border-bg/30">
+          Limited Time Offer
+        </div>
+        <h2 class="text-4xl md:text-6xl font-serif leading-tight">Get This Website <br />For Your Salon.</h2>
+        <p class="text-bg/80 text-lg leading-relaxed max-w-lg">
+          Lumière Studio is a demo of the <span class="font-bold text-bg underline decoration-bg/30 underline-offset-4">Address.Hair</span> platform. Get a high-converting, luxury website like this with Insta-Sync, Google Reviews, and your own Vanity URL.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <div class="bg-bg text-primary p-6 flex flex-col justify-center">
+            <span class="text-xs uppercase tracking-widest opacity-60 mb-1">Lifetime Deal</span>
+            <span class="text-4xl font-serif">$99</span>
+            <span class="text-[10px] uppercase tracking-widest mt-1">One-time payment</span>
+          </div>
+          <div class="bg-primary/20 backdrop-blur-md border border-bg/20 p-6 flex flex-col justify-center flex-1">
+            <span class="text-xs uppercase tracking-widest opacity-60 mb-1">Your Vanity URL</span>
+            <span class="text-xl font-serif italic">lumiere.address.hair</span>
+            <span class="text-[10px] uppercase tracking-widest mt-1">Included for life</span>
+          </div>
+        </div>
+        <a href="/pricing" class="inline-block bg-primary text-bg px-12 py-5 text-xs uppercase tracking-widest hover:bg-bg hover:text-primary transition-all duration-500 flex items-center justify-center md:justify-start gap-3 w-full md:w-auto cursor-pointer">
+          Claim Your Address <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+      </div>
+      <div class="hidden md:block">
+         <div class="bg-bg p-2 shadow-2xl rotate-3 hover:rotate-0 transition-transform duration-700">
+            <img src="https://images.unsplash.com/photo-1600948836101-f9ffda59d250?auto=format&fit=crop&q=80&w=800" class="w-full h-auto" />
+         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-primary text-bg py-20 px-6">
+    <div class="max-w-7xl mx-auto grid md:grid-cols-4 gap-12 mb-20">
+      <div class="col-span-2 space-y-8">
+        <div class="flex items-center gap-2">
+          <span class="text-3xl font-serif tracking-widest uppercase font-medium">Lumière</span>
+          <span class="text-[10px] tracking-[0.3em] uppercase opacity-60 mt-2">Studio</span>
+        </div>
+        <p class="text-bg/50 max-w-sm leading-relaxed">
+          A minimalist sanctuary dedicated to the art of hair and the luxury of transformation. Located in the heart of Beverly Hills.
+        </p>
+        <div class="flex gap-6">
+          <i data-lucide="instagram" class="w-5 h-5 opacity-50 hover:opacity-100 cursor-pointer transition-opacity"></i>
+          <i data-lucide="star" class="w-5 h-5 opacity-50 hover:opacity-100 cursor-pointer transition-opacity"></i>
+          <i data-lucide="map-pin" class="w-5 h-5 opacity-50 hover:opacity-100 cursor-pointer transition-opacity"></i>
+        </div>
+      </div>
+      
+      <div class="space-y-6">
+        <h4 class="text-xs uppercase tracking-[0.3em] font-bold">Location</h4>
+        <p class="text-bg/50 text-sm leading-loose">
+          90210 Wilshire Blvd<br />
+          Beverly Hills, CA<br />
+          United States
+        </p>
+      </div>
+
+      <div class="space-y-6">
+        <h4 class="text-xs uppercase tracking-[0.3em] font-bold">Contact</h4>
+        <p class="text-bg/50 text-sm leading-loose">
+          hello@lumiere.studio<br />
+          +1 (310) 555-0123<br />
+          @lumiere.studio
+        </p>
+      </div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto pt-12 border-t border-bg/10 flex flex-col md:flex-row justify-between items-center gap-8">
+      <p class="text-[10px] uppercase tracking-widest opacity-40">© 2026 Lumière Studio. All Rights Reserved.</p>
+      <div class="flex items-center gap-3">
+        <span class="text-[10px] uppercase tracking-widest opacity-40">Powered by</span>
+        <a href="/" class="flex items-center gap-1 bg-bg/5 px-3 py-1 rounded border border-bg/10 hover:bg-bg/10 transition-colors">
+          <span class="text-[10px] font-bold tracking-tighter">Address.Hair</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sticky Conversion Footer -->
+  <div class="fixed bottom-6 left-6 right-6 md:left-auto md:right-12 md:max-w-sm z-50 animate-slide-up">
+    <div class="bg-white text-primary p-6 shadow-[0_20px_50px_rgba(0,0,0,0.2)] border border-accent/20 relative overflow-hidden group">
+      <div class="absolute top-0 left-0 w-1 h-full bg-accent"></div>
+      <div class="flex justify-between items-start mb-4">
+        <div class="flex items-center gap-2">
+          <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+          <span class="text-[10px] uppercase tracking-widest font-bold text-accent">Demo Active</span>
+        </div>
+        <span class="text-[10px] font-bold bg-primary text-bg px-2 py-0.5">LIFETIME DEAL</span>
+      </div>
+      <h5 class="text-lg font-serif mb-2">Love this website?</h5>
+      <p class="text-xs text-primary/60 mb-6 leading-relaxed">
+        Get your salon online with this exact template, Insta-Sync, and your own <span class="text-primary font-bold">.hair</span> vanity URL for just $99.
+      </p>
+      <a href="/pricing" class="w-full inline-flex bg-accent text-bg py-3 text-[10px] uppercase tracking-widest font-bold hover:bg-primary transition-colors items-center justify-center gap-2 cursor-pointer">
+        Get Started Now <i data-lucide="external-link" class="w-3 h-3"></i>
+      </a>
+    </div>
+  </div>
+
+  <!-- JavaScript functionality -->
+  <script is:inline>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Scroll effect for Navbar
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.classList.replace('bg-transparent', 'bg-bg/95');
+        navbar.classList.replace('py-8', 'py-4');
+        navbar.classList.add('backdrop-blur-md', 'shadow-sm');
+      } else {
+        navbar.classList.replace('bg-bg/95', 'bg-transparent');
+        navbar.classList.replace('py-4', 'py-8');
+        navbar.classList.remove('backdrop-blur-md', 'shadow-sm');
+      }
+    });
+
+    // Mobile Menu Toggle
+    const menuBtn = document.getElementById('menu-btn');
+    const closeBtn = document.getElementById('close-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileLinks = document.querySelectorAll('.mobile-link');
+
+    const toggleMenu = () => mobileMenu.classList.toggle('open');
+
+    menuBtn.addEventListener('click', toggleMenu);
+    closeBtn.addEventListener('click', toggleMenu);
+    mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+  </script>
+</body>
+</html>

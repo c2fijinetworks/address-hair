@@ -5,6 +5,7 @@ export const headerData = {
     { text: 'Features', href: getPermalink('/#features') },
     { text: 'Process', href: getPermalink('/#process') },
     { text: 'The Story', href: getPermalink('/about') },
+    { text: 'Live Demo', href: getPermalink('/demo') },
     { text: 'Pricing', href: getPermalink('/pricing') },
   ],
   actions: [
@@ -18,6 +19,7 @@ export const footerData = {
       title: 'Address.Hair | Digital Artistry ✂️',
       links: [
         { text: "Claim Your Site – $99", href: getPermalink('/pricing') },
+        { text: 'Live Demo', href: getPermalink('/demo') },
         { text: 'The Story', href: getPermalink('/about') },
         { text: 'Support', href: getPermalink('/contact') },
       ],
