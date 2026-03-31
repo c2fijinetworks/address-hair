@@ -7,13 +7,6 @@ import type { Price } from '~/types';
 const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.props;
 ---
 
-<style>
-  /* Custom utility to prevent the mono font from feeling too wide on small screens */
-  .url-preview-text {
-    letter-spacing: -0.02em;
-  }
-</style>
-
 <WidgetWrapper {...rest} id="pricing" classes={{ container: 'max-w-7xl scroll-mt-16', ...classes.container }} hasBackground>
   <Headline {title} {subtitle} {tagline} classes={{ headline: 'max-w-3xl' }} />
   
@@ -54,7 +47,7 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
             )}
           </div>
           
-          <div class="mt-10 p-5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+          <div class="mt-10 p-6 rounded-2xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
             <form id="paypal-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
               <input type="hidden" name="cmd" value="_xclick" />
               <input type="hidden" name="business" value="ZFG89TK2KESFG" />
@@ -65,35 +58,33 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
               <input type="hidden" name="no_shipping" value="1" />
               <input type="hidden" name="solution_type" value="Sole">
               
-              <div class="text-left mb-4">
+              <div class="text-left mb-6">
                 <label class="block text-sm font-bold mb-2 text-slate-700 dark:text-gray-300">1. Choose Your Vanity URL</label>
                 <input type="hidden" name="on0" value="Vanity URL" />
-                <input type="text" id="vanity-input" name="os0" required class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:ring-primary focus:border-primary dark:bg-slate-900 dark:border-slate-600 transition-all font-bold text-lg" placeholder="yoursalon" />
+                <input type="text" id="vanity-input" name="os0" required class="w-full px-4 py-4 border-2 border-slate-300 rounded-xl focus:ring-primary focus:border-primary dark:bg-slate-900 dark:border-slate-600 transition-all font-bold text-lg" placeholder="yoursalon" />
                 
-                <!-- PREVIEW BOX: Improved mobile aesthetics -->
-                <div class="mt-3 p-3 bg-white dark:bg-slate-950 rounded-xl border-2 border-dashed border-primary/30 flex items-center gap-2 shadow-sm overflow-hidden">
-                  <div class="bg-primary rounded-full p-1 flex-shrink-0"><Icon name="tabler:world" class="w-3.5 h-3.5 text-white" /></div>
-                  <div class="flex-1 min-w-0">
-                    <span class="text-[11px] xs:text-[12px] sm:text-sm font-mono leading-none block truncate sm:whitespace-normal sm:overflow-visible url-preview-text">
-                      <span class="text-slate-400">https://</span><span id="vanity-preview" class="text-primary font-black underline underline-offset-2 decoration-2">yoursalon</span><span class="text-slate-400">.address.hair</span>
-                    </span>
+                <!-- PREVIEW BOX: Clean, centered, no cutting off -->
+                <div class="mt-4 p-4 bg-white dark:bg-slate-950 rounded-xl border-2 border-dashed border-primary/40 flex flex-col items-center justify-center shadow-inner overflow-hidden">
+                  <div class="text-[10px] uppercase tracking-[0.2em] text-slate-400 mb-1 font-bold">Your Live Address</div>
+                  <div class="font-mono break-words text-center w-full">
+                    <span id="vanity-preview" class="text-primary text-xl sm:text-2xl font-black underline decoration-primary decoration-4 underline-offset-4">yoursalon</span><span class="text-slate-400 text-lg sm:text-xl font-medium">.address.hair</span>
                   </div>
                 </div>
               </div>
               
-              <div class="text-left mb-6">
+              <div class="text-left mb-8">
                 <label class="block text-sm font-bold mb-2 text-slate-700 dark:text-gray-300">2. Salon Name</label>
                 <input type="hidden" name="on1" value="Salon Name" />
-                <input type="text" id="salon-name-input" name="os1" required class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg dark:bg-slate-900 dark:border-slate-600 transition-all font-bold text-lg" placeholder="Business Name" />
+                <input type="text" id="salon-name-input" name="os1" required class="w-full px-4 py-4 border-2 border-slate-300 rounded-xl focus:ring-primary focus:border-primary dark:bg-slate-900 dark:border-slate-600 transition-all font-bold text-lg" placeholder="Business Name" />
               </div>
               
-              <button type="submit" class="w-full py-4 px-4 bg-red-600 hover:bg-red-700 text-white text-lg font-bold rounded-lg shadow-md transition duration-200">
+              <button type="submit" class="w-full py-5 px-4 bg-red-600 hover:bg-red-700 text-white text-xl font-black rounded-xl shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 uppercase tracking-tight">
                 Order Now Same Day
               </button>
               
-              <div class="flex items-center justify-center gap-2 mt-4 text-slate-400">
+              <div class="flex items-center justify-center gap-2 mt-5 text-slate-400">
                   <Icon name="tabler:credit-card" class="w-4 h-4" />
-                  <p class="text-[10px] font-black uppercase tracking-widest text-center">Secure Checkout</p>
+                  <p class="text-[10px] font-bold uppercase tracking-widest text-center">Secure Checkout (Card or PayPal)</p>
               </div>
             </form>
           </div>
