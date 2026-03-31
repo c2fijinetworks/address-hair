@@ -8,57 +8,88 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
 ---
 
 <WidgetWrapper {...rest} id="pricing" classes={{ container: 'max-w-7xl scroll-mt-16', ...classes.container }} hasBackground>
-  <Headline {title} {subtitle} {tagline} classes={{ headline: 'max-w-3xl' }} />
+  <Headline {title} {subtitle} {tagline} classes={{ headline: 'max-w-3xl' }}>
+    <slot name="title" slot="title" />
+    <slot name="subtitle" slot="subtitle" />
+  </Headline>
   
-  <div class="flex justify-center">
+  <div class:list={['gap-8', { 'flex justify-center': prices.length === 1, 'grid sm:grid-cols-2 lg:grid-cols-3': prices.length > 1 }, classes?.grid]}>
     {prices.map((price) => (
-      <div class="relative overflow-visible flex flex-col rounded-lg border-2 border-primary p-8 text-center shadow-2xl w-full max-w-lg bg-white dark:bg-slate-900">
-        <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-accent text-white px-4 py-1 rounded-full text-sm font-bold uppercase tracking-widest">
-            Lifetime Digital Address
-        </div>
-        <h3 class="text-2xl font-bold mt-2">{price.title}</h3>
-        <div class="mt-8 flex-1">
-          <div class="flex items-end justify-center">
-            <span class="text-5xl font-bold tracking-tight text-primary">${price.price}</span>
-            <span class="ml-1 text-xl font-medium text-muted">/ once</span>
+        <div class:list={['relative overflow-visible flex flex-col rounded-lg border-2 p-8 text-center shadow-lg', { 'border-primary': price.hasRibbon, 'border-gray-200 dark:border-slate-800': !price.hasRibbon, 'w-full max-w-lg': prices.length === 1 }]}>
+          
+          {price.hasRibbon && price.ribbonTitle && (
+            <div class="absolute right-[-5px] 2xl:right-[-8px] rtl:right-auto rtl:left-[-8px] rtl:2xl:left-[-10px] top-[-5px] 2xl:top-[-10px] z-[1] h-[100px] w-[100px] overflow-hidden text-right">
+              <span class="absolute top-[19px] right-[-21px] rtl:right-auto rtl:left-[-21px] block w-full rotate-45 rtl:-rotate-45 bg-red-600 text-center text-[10px] font-bold uppercase leading-5 text-white shadow-[0_3px_10px_-5px_rgba(0,0,0,0.3)] before:absolute before:left-0 before:top-full before:z-[-1] before:border-[3px] before:border-r-transparent before:border-b-transparent before:border-l-red-800 before:border-t-red-800 after:absolute after:right-0 after:top-full after:z-[-1] after:border-[3px] after:border-l-transparent after:border-b-transparent after:border-r-red-800 after:border-t-red-800 content-['']">{price.ribbonTitle}</span>
+            </div>
+          )}
+
+          <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white px-6 py-1 rounded-full text-xs font-black uppercase tracking-widest shadow-lg">
+            Guaranteed Same-Day Setup
           </div>
-          <ul role="list" class="mt-8 space-y-4 text-left">
-            {price.items.map((item) => (
-              <li class="flex items-start">
-                <Icon name="tabler:circle-check" class="w-6 h-6 text-green-500 flex-shrink-0" />
-                <p class="ml-3 text-base text-muted">{item.description}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div class="mt-10 p-6 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-          <form id="paypal-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-            <input type="hidden" name="cmd" value="_xclick" />
-            <input type="hidden" name="business" value="ZFG89TK2KESFG" />
-            <input type="hidden" id="paypal-item-name" name="item_name" value="Address.Hair Professional Vanity URL Setup" />
-            <input type="hidden" name="item_number" value="AHURL99" />
-            <input type="hidden" name="amount" value="99.00" />
-            <input type="hidden" name="currency_code" value="USD" />
-            <input type="hidden" name="no_shipping" value="1" />
-            <input type="hidden" name="solution_type" value="Sole">
-            <div class="text-left mb-4">
-              <label class="block text-sm font-bold mb-2 text-slate-700 dark:text-gray-300">1. Choose Your Vanity URL</label>
-              <input type="hidden" name="on0" value="Vanity URL" />
-              <input type="text" id="vanity-input" name="os0" required class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:ring-primary focus:border-primary dark:bg-slate-900" placeholder="yoursalon" />
-              <div class="mt-3 p-4 bg-blue-50 dark:bg-primary/10 rounded-lg border-2 border-dashed border-primary/40 flex items-center gap-3 shadow-sm">
-                <div class="bg-primary rounded-full p-1.5 flex-shrink-0"><Icon name="tabler:world" class="w-4 h-4 text-white" /></div>
-                <span class="text-base font-mono truncate"><span class="text-slate-500">https://</span><span id="vanity-preview" class="text-primary font-black text-lg underline decoration-2">yoursalon</span><span class="text-slate-500">.address.hair</span></span>
+
+          <h3 class="text-2xl font-bold mt-4">{price.title}</h3>
+          
+          {/* We added set:html here to render the bold red text */}
+          {price.subtitle && <p class="mt-4 text-muted leading-relaxed" set:html={price.subtitle}></p>}
+          
+          <div class="mt-8 flex-1">
+            <div class="flex items-end justify-center">
+              <span class="text-5xl font-bold tracking-tight text-primary">${price.price}</span>
+              <span class="ml-1 text-xl font-medium text-muted">/ once</span>
+            </div>
+            {price.items && (
+              <ul role="list" class="mt-8 space-y-4 text-left">
+                {price.items.map((item) => (
+                  <li class="flex items-start">
+                    <div class="flex-shrink-0">
+                      <Icon name="tabler:circle-check" class="w-6 h-6 text-green-500" />
+                    </div>
+                    {item.description && <p class="ml-3 text-base text-muted">{item.description}</p>}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          
+          <div class="mt-10 p-6 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+            <form id="paypal-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+              <input type="hidden" name="cmd" value="_xclick" />
+              <input type="hidden" name="business" value="ZFG89TK2KESFG" />
+              <input type="hidden" id="paypal-item-name" name="item_name" value="Address.Hair Professional Vanity URL Setup" />
+              <input type="hidden" name="item_number" value="AHURL99" />
+              <input type="hidden" name="amount" value="99.00" />
+              <input type="hidden" name="currency_code" value="USD" />
+              <input type="hidden" name="no_shipping" value="1" />
+              <input type="hidden" name="solution_type" value="Sole">
+              
+              <div class="text-left mb-4">
+                <label class="block text-sm font-bold mb-2 text-slate-700 dark:text-gray-300">1. Choose Your Vanity URL</label>
+                <input type="hidden" name="on0" value="Vanity URL" />
+                <input type="text" id="vanity-input" name="os0" required class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:ring-primary focus:border-primary dark:bg-slate-900 dark:border-slate-600 transition-all font-bold text-lg" placeholder="yoursalon" />
+                <div class="mt-3 p-4 bg-white dark:bg-slate-950 rounded-xl border-2 border-dashed border-primary/30 flex items-center gap-3 shadow-sm">
+                  <div class="bg-primary rounded-full p-1.5 flex-shrink-0"><Icon name="tabler:world" class="w-4 h-4 text-white" /></div>
+                  <span class="text-sm font-mono truncate"><span class="text-slate-500">https://</span><span id="vanity-preview" class="text-primary font-black text-lg underline decoration-2">yoursalon</span><span class="text-slate-500">.address.hair</span></span>
+                </div>
               </div>
-            </div>
-            <div class="text-left mb-6">
-              <label class="block text-sm font-bold mb-2 text-slate-700 dark:text-gray-300">2. Salon Name</label>
-              <input type="hidden" name="on1" value="Salon Name" />
-              <input type="text" id="salon-name-input" name="os1" required class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg dark:bg-slate-900" placeholder="Business Name" />
-            </div>
-            <button type="submit" class="w-full py-4 px-4 bg-primary hover:bg-blue-700 text-white font-extrabold rounded-lg shadow-lg text-lg">Secure My URL Today</button>
-          </form>
+              
+              <div class="text-left mb-6">
+                <label class="block text-sm font-bold mb-2 text-slate-700 dark:text-gray-300">2. Salon Name</label>
+                <input type="hidden" name="on1" value="Salon Name" />
+                <input type="text" id="salon-name-input" name="os1" required class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg dark:bg-slate-900 dark:border-slate-600 transition-all font-bold text-lg" placeholder="Business Name" />
+              </div>
+              
+              {/* Enhanced Red Call To Action button style to drive impulse */}
+              <button type="submit" class="w-full py-4 px-4 bg-red-600 hover:bg-red-700 text-white text-lg font-bold rounded-lg shadow-md transition duration-200">
+                {price.callToAction?.text || 'Order Now Same Day'}
+              </button>
+              
+              <div class="flex items-center justify-center gap-2 mt-4 text-slate-400">
+                  <Icon name="tabler:credit-card" class="w-4 h-4" />
+                  <p class="text-[10px] font-black uppercase tracking-widest text-center">Secure Checkout</p>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
     ))}
   </div>
 </WidgetWrapper>

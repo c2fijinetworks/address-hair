@@ -32,12 +32,11 @@ const {
           </div>
         </div>
         {image && (
-          <div class="relative m-auto max-w-5xl">
-            <img src={image.src} alt={image.alt} width={image.width} height={image.height} class="w-11/12 h-auto md:ml-auto mx-auto rounded-md" loading="lazy" decoding="async" />
+          <div class="relative m-auto w-full">
+            <img src={image.src} alt={image.alt || 'Hero Image'} width={image.width} height={image.height} class="w-full h-auto object-cover aspect-[4/3] sm:aspect-auto sm:max-h-[60vh] md:w-11/12 md:max-h-[70vh] md:ml-auto mx-auto rounded-xl shadow-2xl" loading="lazy" decoding="async" />
           </div>
         )}
       </div>
     </div>
   </div>
 </section>
-
