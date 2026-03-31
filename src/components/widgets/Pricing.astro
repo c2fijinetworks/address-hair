@@ -7,11 +7,15 @@ import type { Price } from '~/types';
 const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.props;
 ---
 
+<style>
+  /* Custom utility to prevent the mono font from feeling too wide on small screens */
+  .url-preview-text {
+    letter-spacing: -0.02em;
+  }
+</style>
+
 <WidgetWrapper {...rest} id="pricing" classes={{ container: 'max-w-7xl scroll-mt-16', ...classes.container }} hasBackground>
-  <Headline {title} {subtitle} {tagline} classes={{ headline: 'max-w-3xl' }}>
-    <slot name="title" slot="title" />
-    <slot name="subtitle" slot="subtitle" />
-  </Headline>
+  <Headline {title} {subtitle} {tagline} classes={{ headline: 'max-w-3xl' }} />
   
   <div class:list={['gap-8', { 'flex justify-center': prices.length === 1, 'grid sm:grid-cols-2 lg:grid-cols-3': prices.length > 1 }, classes?.grid]}>
     {prices.map((price) => (
@@ -50,7 +54,7 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
             )}
           </div>
           
-          <div class="mt-10 p-6 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+          <div class="mt-10 p-5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
             <form id="paypal-form" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
               <input type="hidden" name="cmd" value="_xclick" />
               <input type="hidden" name="business" value="ZFG89TK2KESFG" />
@@ -66,12 +70,14 @@ const { title, subtitle, tagline, prices = [], classes = {}, ...rest } = Astro.p
                 <input type="hidden" name="on0" value="Vanity URL" />
                 <input type="text" id="vanity-input" name="os0" required class="w-full px-4 py-3 border-2 border-slate-300 rounded-lg focus:ring-primary focus:border-primary dark:bg-slate-900 dark:border-slate-600 transition-all font-bold text-lg" placeholder="yoursalon" />
                 
-                <!-- PREVIEW BOX: Fixed break-all to prevent cutting off on mobile -->
-                <div class="mt-3 p-4 bg-white dark:bg-slate-950 rounded-xl border-2 border-dashed border-primary/30 flex items-start gap-3 shadow-sm">
-                  <div class="bg-primary rounded-full p-1.5 flex-shrink-0 mt-0.5"><Icon name="tabler:world" class="w-4 h-4 text-white" /></div>
-                  <span class="text-[13px] sm:text-sm font-mono break-all leading-tight">
-                    <span class="text-slate-500">https://</span><span id="vanity-preview" class="text-primary font-black underline underline-offset-2 decoration-2">yoursalon</span><span class="text-slate-500">.address.hair</span>
-                  </span>
+                <!-- PREVIEW BOX: Improved mobile aesthetics -->
+                <div class="mt-3 p-3 bg-white dark:bg-slate-950 rounded-xl border-2 border-dashed border-primary/30 flex items-center gap-2 shadow-sm overflow-hidden">
+                  <div class="bg-primary rounded-full p-1 flex-shrink-0"><Icon name="tabler:world" class="w-3.5 h-3.5 text-white" /></div>
+                  <div class="flex-1 min-w-0">
+                    <span class="text-[11px] xs:text-[12px] sm:text-sm font-mono leading-none block truncate sm:whitespace-normal sm:overflow-visible url-preview-text">
+                      <span class="text-slate-400">https://</span><span id="vanity-preview" class="text-primary font-black underline underline-offset-2 decoration-2">yoursalon</span><span class="text-slate-400">.address.hair</span>
+                    </span>
+                  </div>
                 </div>
               </div>
               
